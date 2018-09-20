@@ -1,7 +1,11 @@
+#define INPUT_MAX 1000
+#define INPUT_MIN -1000
+
 /*
  * Generates input for mss with the specified size.
  * Returns a **dynamically allocated** int array containing
- * the inputs
+ * the inputs. The numbers are within the range of
+ * [INPUT_MIN, INPUT_MAX]
  *
  * Rationale
  * To be able to generate input during runtime (without an
