@@ -1,4 +1,4 @@
-# Maxiumum Subsequence Sum Problem
+# Maximum Subsequence Sum Problem
 Assignment 1
 
 ## Requirements
