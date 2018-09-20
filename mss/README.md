@@ -34,3 +34,11 @@ The output file, in the following format
 - 5th line: index of the rightmost number in the subsequence found
 - 6th line: sum of the subsequence
 - 7th line: running time in milliseconds
+
+## Testing
+Some modules contain unit tests inside ifdef statements. Run the
+tests for these modules using gcc's macro define option [-D].
+```
+gcc -D TEST generate.c
+./a.out
+```
