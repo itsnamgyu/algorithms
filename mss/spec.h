@@ -1,3 +1,5 @@
+#pragma once
+
 /*
  * Answers for the given mss problem.
  *
