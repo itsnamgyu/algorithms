@@ -1,11 +1,7 @@
 typedef struct _mss_result {
-	char filename[100];
-	int algo_index;
-	int input_size;
 	int index_a;
 	int index_b;
 	int sum;
-	int running_time;
 } mss_result;
 
 /*
