@@ -1,6 +1,11 @@
+/*
+ * Answers for the given mss problem.
+ *
+ * Note that the start, end indices are both inclusive.
+ */
 typedef struct _mss_result {
-	int index_a;
-	int index_b;
+	int start;
+	int end;
 	int sum;
 } mss_result;
 
