@@ -16,7 +16,7 @@ int main() {
 	}
 	printf("[manual] generate \"test_input.txt\" with 10 inputs\n");
 	generate_input_file("test_input.txt", 10);
-	printf("[automatic] write + save + read...\n");
+	printf("[auto] write + save + read...\n");
 	{
 		for (int size_factor = 1; size_factor <= 24; ++size_factor) {
 			int *input = generate_input((1 << size_factor));
