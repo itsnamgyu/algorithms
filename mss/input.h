@@ -1,3 +1,6 @@
+#pragma once
+#include <stdio.h>
+
 #define INPUT_MAX 1000
 #define INPUT_MIN -1000
 
@@ -30,3 +33,8 @@ void generate_input_file(char *filename, int size);
  * int array containing the inputs. Returns NULL on invalid input
  */
 int *read_input(char *filename, int *size);
+
+/*
+ * Dumps the content of input to file `f`
+ */
+void dump_input(FILE *f, int *input, int size);

@@ -10,11 +10,9 @@ int main() {
 	printf("[manual] output 10 input numbers\n");
 	{
 		int *input = generate_input(10);
-		int *cursor = input;
 		printf("\t");
-		for (int i = 0; i < 10; ++i)
-			printf("%d ", *cursor++);
-		printf("\n");
+		dump_input(stdout, input, 10);
+		free(input);
 	}
 	printf("[manual] generate \"test_input.txt\" with 10 inputs\n");
 	generate_input_file("test_input.txt", 10);
@@ -71,10 +69,7 @@ void write_input(char *filename, int *input, int size) {
 	}
 
 	fprintf(f, "%d ", size);
-
-	int *cursor = input;
-	for (int i = 0; i < size; ++i)
-		fprintf(f, "%d ", *cursor++);
+	dump_input(f, input, size);
 
 	fclose(f);
 }
@@ -109,4 +104,11 @@ int *read_input(char *filename, int *size) {
 	fclose(f);
 
 	return input;
+}
+
+void dump_input(FILE *f, int *input, int size) {
+	int *cursor = input;
+	for (int i = 0; i < size; ++i)
+		fprintf(f, "%d ", *cursor++);
+	fprintf(f, "\n");
 }
