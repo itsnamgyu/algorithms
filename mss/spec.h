@@ -14,3 +14,5 @@ typedef struct _mss_result {
  * Returns NULL on invalid input.
  */
 typedef mss_result *mss_function(int *data, int size);
+
+#define DEBUG_EXPR "line %d of \"%s\" function <%s>\n",__LINE__,__FILE__,__func__
