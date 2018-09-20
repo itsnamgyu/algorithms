@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include "generate.h"
 
 int *generate_input(int size) {
 	int *input = malloc(sizeof(int) * size);
