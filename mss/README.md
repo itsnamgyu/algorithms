@@ -10,10 +10,14 @@ make
 cat result_input00001.txt
 ```
 
-### input00001.txt: the input data in the following format
+### input00001.txt
+The input data in the following format:
 ```
 10 3 -8 9 7 -30 22 -4 19 -6 5
 ```
+Note that 10 is the input size and the reset of the numbers are
+the actual inputs.
+
 ### 2
 The algorithm index from the following:
 1. O(n2) algorithm
