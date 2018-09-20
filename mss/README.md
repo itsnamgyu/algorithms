@@ -10,7 +10,8 @@ make
 cat result_input00001.txt
 ```
 
-### input00001.txt: the input data in the following format
+### input00001.txt
+The input data in the following format:
 ```
 10 3 -8 9 7 -30 22 -4 19 -6 5
 ```
