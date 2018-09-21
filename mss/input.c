@@ -7,7 +7,7 @@
 #ifdef TEST
 #undef TEST
 int main() {
-	printf("[manual] output 10 input numbers\n");
+	printf("[manual] output 10 input numbers...\n");
 	{
 		int *input = generate_input(10);
 		printf("\t");
