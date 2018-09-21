@@ -34,8 +34,9 @@ clean:
 	rm -f $(TARGET)
 	rm -rf $(OBJDIR)
 	rm -f $(TEST)
-	rm -f analysis/input*
 	rm -f generator
+	rm -f analysis/input*
+	rn -f analysis/results.csv
 
 utest:
 	gcc -D TEST -o test src/input.c
