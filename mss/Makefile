@@ -26,10 +26,10 @@ clean:
 	rm -rf $(OBJDIR)
 	rm -f $(TEST)
 
-test:
-	gcc -D TEST -o test input.c
+utest:
+	gcc -D TEST -o test src/input.c
 	@./$(TEST)
-	gcc -D TEST -o test mss.c
+	gcc -D TEST -o test src/mss.c
 	@./$(TEST)
 	@echo "all tests successful"
 	@rm -f $(TEST)
