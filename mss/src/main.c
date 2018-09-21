@@ -47,6 +47,11 @@ int main(int argc, char *argv[]) {
 	sprintf(outfile, "%s%s", "result_", argv[1]);
 
 	FILE *f = fopen(outfile, "w");
+	if (f == NULL) {
+		fprintf(stderr, "could not open outfile %s\n", outfile);
+		return -1;
+	}
+
 	fprintf(f, "%s\n", argv[1]);
 	fprintf(f, "%d\n", index);
 	fprintf(f, "%d\n", size);
