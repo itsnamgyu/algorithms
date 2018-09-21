@@ -3,7 +3,7 @@ CFLAGS = -g -Wall
 
 .SUFFIXES: .c .o
 
-SRC = input.c main.c mss.c
+SRC = src/input.c src/main.c src/mss.c
 
 OBJDIR = obj
 OBJ = $(patsubst %.c, $(OBJDIR)/%.o, $(SRC))
