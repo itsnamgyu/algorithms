@@ -4,9 +4,13 @@ CFLAGS = -g -Wall
 .SUFFIXES: .c .o
 
 SRC = src/input.c src/main.c src/mss.c
+GEN_SRC = src/input.c src/generate.c
+
+GEN_DIR = analysis
 
 OBJDIR = obj
-OBJ = $(patsubst %.c, $(OBJDIR)/%.o, $(SRC))
+OBJ = $(patsubst src/%.c, $(OBJDIR)/%.o, $(SRC))
+GEN_OBJ = $(patsubst src/%.c, $(OBJDIR)/%.o, $(GEN_SRC))
 
 TARGET = mss20161662
 
@@ -15,7 +19,14 @@ TEST = test
 $(TARGET) : $(OBJ)
 	$(CC) -o $@ $(OBJ)
 
-$(OBJDIR)/%.o : %.c
+generate : $(GEN_OBJ)
+	$(CC) -o generator $(GEN_OBJ)
+	./generator
+	mkdir -p $(GEN_DIR)
+	mv input* $(GEN_DIR)
+	rm generator
+
+$(OBJDIR)/%.o : src/%.c
 	@mkdir -p $@D
 	$(CC) $(CFLAGS) -c $< -o $@
 
