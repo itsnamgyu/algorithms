@@ -6,24 +6,22 @@ CFLAGS = -g -Wall
 SRC = src/input.c src/main.c src/mss.c
 GEN_SRC = src/input.c src/generate.c
 
-GEN_DIR = analysis
-
 OBJDIR = obj
 OBJ = $(patsubst src/%.c, $(OBJDIR)/%.o, $(SRC))
 GEN_OBJ = $(patsubst src/%.c, $(OBJDIR)/%.o, $(GEN_SRC))
 
 TARGET = mss20161662
 
-TEST = test
-
 $(TARGET) : $(OBJ)
 	$(CC) -o $@ $(OBJ)
 
-generate : $(GEN_OBJ)
-	$(CC) -o generator $(GEN_OBJ)
+generator : $(GEN_OBJ)
+	$(CC) -o $@ $(GEN_OBJ)
+
+generate : generator
 	./generator
-	mkdir -p $(GEN_DIR)
-	mv input* $(GEN_DIR)
+	mkdir -p analysis
+	mv input* analysis
 	rm generator
 
 $(OBJDIR)/%.o : src/%.c
@@ -36,11 +34,13 @@ clean:
 	rm -f $(TARGET)
 	rm -rf $(OBJDIR)
 	rm -f $(TEST)
+	rm -f analysis/input*
+	rm -f generator
 
 utest:
 	gcc -D TEST -o test src/input.c
-	@./$(TEST)
+	@./test
 	gcc -D TEST -o test src/mss.c
-	@./$(TEST)
+	@./test
 	@echo "all tests successful"
-	@rm -f $(TEST)
+	@rm -f test
