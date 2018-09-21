@@ -28,13 +28,13 @@ int main(int argc, char *argv[]) {
 	mss_result result;
 	clock_t start_t = clock();
 	switch (index) {
-		case 0:
+		case 1:
 			result = mss_n2(data, size);
 			break;
-		case 1:
+		case 2:
 			result = mss_nlogn(data, size);
 			break;
-		case 2:
+		case 3:
 			result = mss_n(data, size);
 			break;
 		default:
