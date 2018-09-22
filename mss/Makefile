@@ -4,6 +4,7 @@ CFLAGS = -g -Wall
 .SUFFIXES: .c .o
 
 SRC = src/input.c src/main.c src/mss.c
+TEST_SRC = src/input.c src/mss.c
 GEN_SRC = src/input.c src/generate.c
 
 OBJDIR = obj
@@ -38,9 +39,10 @@ clean:
 	rm -f generator
 
 unittest:
-	gcc -D TEST -o test src/input.c
-	@./test
-	gcc -D TEST -o test src/mss.c
-	@./test
+	@for S in $(TEST_SRC); do \
+		echo $$S; \
+		gcc -D TEST -o test $$S; \
+		./test; \
+	done;
 	@echo "all tests successful"
 	@rm -f test
