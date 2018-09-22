@@ -40,9 +40,9 @@ clean:
 
 unittest:
 	@for S in $(TEST_SRC); do \
-		echo $$S; \
+		echo "Testing $$S..."; \
 		gcc -D TEST -o test $$S; \
 		./test; \
 	done;
-	@echo "all tests successful"
+	@echo "All tests successful."
 	@rm -f test
