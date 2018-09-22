@@ -37,7 +37,7 @@ clean:
 	rm -f analysis/input*
 	rm -f generator
 
-utest:
+unittest:
 	gcc -D TEST -o test src/input.c
 	@./test
 	gcc -D TEST -o test src/mss.c
