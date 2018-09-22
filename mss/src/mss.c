@@ -104,10 +104,12 @@ static mss_result mss_recursive(int *data, int left, int right) {
 	results[0] = mss_recursive(data, left, center);
 	results[2] = mss_recursive(data, center + 1, right);
 
+	// add center (by default) to maximum center sum
 	results[1].start = center;
 	results[1].end = center;
 	results[1].sum = data[center];
 	
+	// append maximum left border sum
 	int sum = data[center];
 	int index = center - 1;
 	while (index >= left) {
@@ -119,6 +121,7 @@ static mss_result mss_recursive(int *data, int left, int right) {
 		index--;
 	}
 
+	// append maximum right border sum
 	sum = results[1].sum;
 	index = center + 1;
 	while (index <= right) {
@@ -130,6 +133,7 @@ static mss_result mss_recursive(int *data, int left, int right) {
 		index++;
 	}
 
+	// get max of three sums
 	mss_result max_result = results[0];
 	for (int i = 1; i < 3; ++i)
 		if (max_result.sum < results[i].sum)

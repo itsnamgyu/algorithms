@@ -12,6 +12,7 @@ int main(int argc, char *argv[]) {
 		return -1;
 	}
 	
+	// get input filename and read input
 	int size;
 	int *data = read_input(argv[1], &size);
 	if (!data) {
@@ -19,12 +20,14 @@ int main(int argc, char *argv[]) {
 		return -1;
 	}
 
+	// get algo index
 	int index;
 	if (sscanf(argv[2], "%d", &index) != 1) {
 		fprintf(stderr, "second argument invalid\n");
 		return -1;
 	}
 	
+	// call the appropriate mss function
 	mss_result result;
 	clock_t start_t = clock();
 	switch (index) {
@@ -43,6 +46,7 @@ int main(int argc, char *argv[]) {
 	}
 	float duration = (float)(clock() - start_t) / CLOCKS_PER_SEC * 1000;
 
+	// generate outfile name
 	char outfile[100];
 	sprintf(outfile, "%s%s", "result_", argv[1]);
 
@@ -52,6 +56,7 @@ int main(int argc, char *argv[]) {
 		return -1;
 	}
 
+	// write results
 	fprintf(f, "%s\n", argv[1]);
 	fprintf(f, "%d\n", index);
 	fprintf(f, "%d\n", size);

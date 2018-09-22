@@ -53,6 +53,8 @@ int *generate_input(int size) {
 	int *cursor = input;
 	int range_size = INPUT_MAX - INPUT_MIN + 1;
 
+	// (int*) cursor points to the location in the input array
+	// where we will insert our next input
 	for (int i = 0; i < size; ++i)
 		*cursor++ = INPUT_MIN + rand() % range_size;
 	
@@ -92,6 +94,8 @@ int *read_input(char *filename, int *size) {
 	if (fscanf(f, "%d ", size) != 1)
 		return NULL;
 
+	// (int*) cursor points to the location where we will insert
+	// our next input
 	int *input = malloc(sizeof(int) * *size);
 	int *cursor = input;
 	for (int i = 0; i < *size; ++i) {
