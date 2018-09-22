@@ -35,8 +35,9 @@ clean:
 	rm -f $(TARGET)
 	rm -rf $(OBJDIR)
 	rm -f $(TEST)
-	rm -f analysis/input*
 	rm -f generator
+	rm -f analysis/input*
+	rn -f analysis/results.csv
 
 unittest:
 	@for S in $(TEST_SRC); do \
