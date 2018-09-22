@@ -37,7 +37,7 @@ clean:
 	rm -f $(TEST)
 	rm -f generator
 	rm -f analysis/input*
-	rn -f analysis/results.csv
+	rm -f analysis/results.csv
 
 unittest:
 	@for S in $(TEST_SRC); do \
