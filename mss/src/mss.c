@@ -37,7 +37,8 @@ int main() {
 		printf("\tall match!\n");
 	}
 
-	printf("[complete] %s\n", __FILE__);
+	printf("[complete] \"%s\"\n", __FILE__);
+
 	return 0;
 }
 #endif
