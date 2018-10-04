@@ -49,6 +49,9 @@ for in_path in in_paths:
         *parse.parse(in_format, in_path))
     answer = get_tokens(out_path);
     for index in [1, 2, 3]:
+        if answer[2] > 100000 and index == 1:
+            print('skipping algo 1 for {}'.format(in_path))
+            continue
         subprocess.call(['../mss20161662', in_path, str(index)])
         result_path = 'result_{}'.format(in_path)
         result = get_tokens(result_path)
