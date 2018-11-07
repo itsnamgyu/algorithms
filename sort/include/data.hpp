@@ -5,7 +5,7 @@ class Data {
 	public:
 		Data(const std::vector<int> &number);
 
-		static Data *load(char *filename);
+		static Data load(char *filename);
 
 		std::vector<int> numbers;
 
