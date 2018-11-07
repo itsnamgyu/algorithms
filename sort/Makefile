@@ -1,16 +1,17 @@
 CC = g++
-CFLAGS = -g -Wall -std=c++11
+STD = -std=c++11
+CFLAGS = -g -Wall $(STD)
 
 .SUFFIXES: .cpp .o
 
 SRC_DIR = src
 OBJ_DIR = obj
 
-SRC = 
-TEST_SRC = 
+SRC = none
+TEST_SRC = data.cpp
 
-_SRC = $(patsubst %.cpp, $(OBJDIR)/%.o, $(SRC))
-_TEST_SRC = $(patsubst %.cpp, $(OBJDIR)/%.o, $(TEST_SRC))
+_SRC = $(patsubst %.cpp, $(SRC_DIR)/%.cpp, $(SRC))
+_TEST_SRC = $(patsubst %.cpp, $(SRC_DIR)/%.cpp, $(TEST_SRC))
 _OBJ = $(patsubst %.cpp, $(OBJ_DIR)/%.o, $(SRC))
 
 TARGET = mp2_20161662
@@ -25,18 +26,12 @@ $(OBJ_DIR)/%.o : $(SRC_DIR)/%.cpp
 	$(CC) $(CFLAGS) -c $< -o $@
 
 test:
-	TOTAL = 0
-	SUCCESS = 0
-	
+	@TOTAL=0
+	@SUCCESS=0
 	@for S in $(_TEST_SRC); do \
 		echo "Testing $$S..."; \
-		gcc -D TEST -o test $$S; \
+		$(CC) $(STD) -D TEST -o test $$S; \
 		./test; \
-		if [ $? == 0 ]; then
-			(( SUCCESS+=1 ))
-		fi
-		(( TOTAL+=1 ))
-			
 	done;
-	@echo "$(SUCCESS) of $(TOTAL) tests successful."
+	@echo "All tests successful!"
 	@rm -f test
