@@ -1,7 +1,7 @@
-CC = gcc
-CFLAGS = -g -Wall -std=c99
+CC = g++
+CFLAGS = -g -Wall -std=c++11
 
-.SUFFIXES: .c .o
+.SUFFIXES: .cpp .o
 
 SRC_DIR = src
 OBJ_DIR = obj
@@ -9,16 +9,18 @@ OBJ_DIR = obj
 SRC = 
 TEST_SRC = 
 
-_SRC = $(patsubst %.c, $(OBJDIR)/%.o, $(SRC))
-_TEST_SRC = $(patsubst %.c, $(OBJDIR)/%.o, $(TEST_SRC))
-_OBJ = $(patsubst %.c, $(OBJ_DIR)/%.o, $(SRC))
+_SRC = $(patsubst %.cpp, $(OBJDIR)/%.o, $(SRC))
+_TEST_SRC = $(patsubst %.cpp, $(OBJDIR)/%.o, $(TEST_SRC))
+_OBJ = $(patsubst %.cpp, $(OBJ_DIR)/%.o, $(SRC))
 
 TARGET = mp2_20161662
 
 $(TARGET) : $(_OBJ)
 	$(CC) -o $@ $(_OBJ)
 
-$(OBJ_DIR)/%.o : $(SRC_DIR)/%.c
+debug: 
+
+$(OBJ_DIR)/%.o : $(SRC_DIR)/%.cpp
 	@mkdir -p $@D
 	$(CC) $(CFLAGS) -c $< -o $@
 
