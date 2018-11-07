@@ -10,5 +10,5 @@ class Data {
 		std::vector<int> numbers;
 
 		void save(char *filename);
-		bool Data::operator ==(const Data &b) const;
+		bool operator ==(const Data &b) const;
 };
