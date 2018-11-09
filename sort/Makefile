@@ -8,7 +8,7 @@ SRC_DIR = src
 OBJ_DIR = obj
 
 SRC = none
-TEST_SRC = data.cpp
+TEST_SRC = data.cpp sort.cpp
 
 _SRC = $(patsubst %.cpp, $(SRC_DIR)/%.cpp, $(SRC))
 _TEST_SRC = $(patsubst %.cpp, $(SRC_DIR)/%.cpp, $(TEST_SRC))
