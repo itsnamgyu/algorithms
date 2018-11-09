@@ -7,7 +7,7 @@ CFLAGS = -g -Wall $(STD)
 SRC_DIR = src
 OBJ_DIR = obj
 
-SRC = none
+SRC = main.cpp data.cpp sort.cpp insertion_sort.cpp merge_sort.cpp quick_sort.cpp
 TEST_SRC = data.cpp sort.cpp insertion_sort.cpp merge_sort.cpp quick_sort.cpp
 
 _SRC = $(patsubst %.cpp, $(SRC_DIR)/%.cpp, $(SRC))
