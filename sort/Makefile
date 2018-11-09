@@ -8,7 +8,7 @@ SRC_DIR = src
 OBJ_DIR = obj
 
 SRC = none
-TEST_SRC = data.cpp sort.cpp
+TEST_SRC = data.cpp sort.cpp insertion_sort.cpp merge_sort.cpp quick_sort.cpp
 
 _SRC = $(patsubst %.cpp, $(SRC_DIR)/%.cpp, $(SRC))
 _TEST_SRC = $(patsubst %.cpp, $(SRC_DIR)/%.cpp, $(TEST_SRC))
@@ -30,7 +30,7 @@ test:
 	@SUCCESS=0
 	@for S in $(_TEST_SRC); do \
 		echo "Testing $$S..."; \
-		$(CC) $(STD) -D TEST -o test $$S; \
+		$(CC) $(STD) -D TEST -o test_exec $$S; \
 		./test_exec; \
 	done;
 	@echo "All tests successful!"
@@ -38,3 +38,4 @@ test:
 
 clean:
 	@rm -f test_data.txt
+	@rm -f test_exec
