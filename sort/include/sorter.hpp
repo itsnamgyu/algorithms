@@ -2,12 +2,12 @@
 #include <vector>
 #include "data.hpp"
 
-typedef void (*sort_func)(Data *data);
+typedef void (*sort_func)(Data &data);
 
-bool sorts_correctly(Data *data, sort_func sort);
+bool sorts_correctly(sort_func sort, int iterations=5000);
 
-sort_func std_sort;
-sort_func null_sort;  // doesn't do anything
-sort_func merge_sort;
-sort_func quick_sort;
-sort_func ho_sort;
+void std_sort(Data &data);
+void null_sort(Data &data);
+void merge_sort(Data &data);
+void quick_sort(Data &data);
+void ho_sort(Data &data);
