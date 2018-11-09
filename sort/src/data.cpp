@@ -13,6 +13,17 @@ Data::Data(const std::vector<int> &numbers) {
 
 Data Data::random(int count) {
 	srand(time(NULL));
+
+	long range = (long) MAX - (long) MIN;
+	auto d = Data(std::vector<int>(count));
+
+	int random = rand();
+	for (int i = 0; i < count; ++i) {
+		random += rand();
+		d.numbers[i] = MIN + (long) random % (long) range;
+	}
+
+	return d;
 }
 
 Data Data::load(char *filename) {
@@ -58,14 +69,13 @@ void Data::print(FILE *f) {
 
 #ifdef TEST
 #undef TEST
-void test_print() {
-	printf("[%s] manual print test...\n", __FILE__);
 
-	int _numbers[] = { 0, 24, 9358, -29483, 20384 };
-	auto numbers = std::vector<int>(_numbers, std::end(_numbers));
+void test_random_print() {
+	printf("[%s] manual random print test...\n", __FILE__);
 
-	auto a = Data(numbers);
-	a.print(stdout);
+	auto d = Data::random(10);
+	d.print(stdout);
+	printf("\n");
 }
 
 void test_io() {
@@ -102,8 +112,7 @@ void test_comparison() {
 }
 
 int main() {
-	test_print();
-	printf("\n");
+	test_random_print();
 	test_io();
 	test_comparison();
 	return 0;
