@@ -9,6 +9,9 @@
 
 #include "../include/data.hpp"
 
+Data::Data() : numbers() {
+}
+
 Data::Data(const std::vector<int> &numbers) {
 	this->numbers = numbers;
 }
