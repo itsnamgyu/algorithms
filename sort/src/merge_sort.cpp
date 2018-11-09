@@ -2,6 +2,7 @@
 #include "../include/data.hpp"
 #include <algorithm>
 #include <cassert>
+#include <cstring>
 
 static void merge(int *array, int begin, int mid, int end);
 
