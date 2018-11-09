@@ -50,6 +50,10 @@ bool Data::operator ==(const Data &other) const {
 	return this->numbers == other.numbers;
 }
 
+bool Data::operator !=(const Data &other) const {
+	return this->numbers != other.numbers;
+}
+
 void Data::save(char *filename) {
 	FILE *f = fopen(filename, "w");
 
@@ -104,11 +108,19 @@ void test_comparison() {
 	a.push_back(2);
 	b.push_back(1);
 
+	auto da = Data(a);
+	auto db = Data(b);
+
 	assert(a != b);
+	assert(da != db);
 
 	b.push_back(2);
 
+	da = Data(a);
+	db = Data(b);
+
 	assert(a == b);
+	assert(da == db);
 }
 
 int main() {

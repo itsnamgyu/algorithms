@@ -19,4 +19,5 @@ class Data {
 		void save(char *filename);
 		void print(FILE *f);
 		bool operator ==(const Data &b) const;
+		bool operator !=(const Data &b) const;
 };
