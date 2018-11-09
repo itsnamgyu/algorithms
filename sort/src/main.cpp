@@ -59,6 +59,8 @@ int main(int argument_count, char **arguments) {
 	fprintf(f, "%.6lf\n", time);
 	data.print(f);
 
+	fclose(f);
+
 	return 0;
 }
 
