@@ -9,6 +9,7 @@ class Data {
 		static const int MAX = INT_MAX;
 		static const int MIN = INT_MIN;
 
+		Data();
 		Data(const std::vector<int> &number);
 
 		static Data load(char *filename);
