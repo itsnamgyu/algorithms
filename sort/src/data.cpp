@@ -5,6 +5,7 @@
 #include <cassert>
 #include <string>
 #include <algorithm>
+#include <ctime>
 
 #include "../include/data.hpp"
 
@@ -71,8 +72,11 @@ void Data::print(FILE *f) {
 	for (auto n : numbers)
 		fprintf(f, "%d ", n);
 }
-void Data::sort(void (*sort)(int *array, int begin, int end)) {
+
+double Data::sort(void (*sort)(int *array, int begin, int end)) {
+	clock_t start = clock();
 	sort(numbers.data(), 0, numbers.size() - 1);
+	return ((clock() - start) / (double )CLOCKS_PER_SEC);
 }
 
 #ifdef TEST
