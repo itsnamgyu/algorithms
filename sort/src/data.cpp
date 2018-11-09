@@ -4,6 +4,7 @@
 #include <stdexcept>
 #include <cassert>
 #include <string>
+#include <algorithm>
 
 #include "../include/data.hpp"
 
@@ -70,11 +71,18 @@ void Data::print(FILE *f) {
 	for (auto n : numbers)
 		fprintf(f, "%d ", n);
 }
+void Data::sort(void (*sort)(int *array, int begin, int end)) {
+	sort(numbers.data(), 0, numbers.size() - 1);
+}
 
 #ifdef TEST
 #undef TEST
 
-void test_random_print() {
+static void test_std_sort(int *array, int begin, int end) {
+	std::sort(array + begin, array + end + 1);
+}
+
+static void test_random_print() {
 	printf("[%s] manual random print test...\n", __FILE__);
 
 	auto d = Data::random(10);
@@ -82,7 +90,7 @@ void test_random_print() {
 	printf("\n");
 }
 
-void test_io() {
+static void test_io() {
 	printf("[%s] io test...\n", __FILE__);
 
 	int _numbers[] = { 0, 24, 9358, -29483, 20384 };
@@ -98,7 +106,7 @@ void test_io() {
 	assert(numbers == b.numbers);
 }
 
-void test_comparison() {
+static void test_comparison() {
 	printf("[%s] comparison test...\n", __FILE__);
 
 	auto a = std::vector<int>();
@@ -123,10 +131,25 @@ void test_comparison() {
 	assert(da == db);
 }
 
+void test_sort() {
+	printf("[%s] data.sort test...\n", __FILE__);
+	int _numbers[] = { 3, 2, 1 };
+	auto numbers = std::vector<int>(_numbers, std::end(_numbers));
+	auto data = Data(numbers);
+	data.sort(test_std_sort);
+	
+	int _sorted_numbers[] = { 1, 2, 3 };
+	auto sorted_numbers = std::vector<int>(_sorted_numbers, std::end(_sorted_numbers));
+	auto sorted_data = Data(sorted_numbers);
+
+	assert(sorted_data == data);
+}
+
 int main() {
 	test_random_print();
 	test_io();
 	test_comparison();
+	test_sort();
 	return 0;
 }
 #endif

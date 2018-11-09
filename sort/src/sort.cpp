@@ -3,14 +3,15 @@
 #include <algorithm>
 #include <cassert>
 
-void std_sort(Data &data) {
-	std::sort(data.numbers.begin(), data.numbers.end());
+
+void std_sort(int *array, int begin, int end) {
+	std::sort(array + begin, array + end + 1);
 }
 
-void null_sort(Data &data) {
+void null_sort(int *array, int begin, int end) {
 }
 
-bool validate_sort(sort_func sort, bool verbose, int iterations) {
+bool validate_sort(sort_func sorter, bool verbose, int iterations) {
 	if (verbose)
 		printf("validating sort with %d iterations\n", iterations);
 
@@ -23,8 +24,8 @@ bool validate_sort(sort_func sort, bool verbose, int iterations) {
 		Data data = Data::random(i);
 		Data copy = data;
 
-		sort(data);
-		std_sort(copy);
+		data.sort(sorter);
+		copy.sort(std_sort);
 
 		if (data != copy) return false;
 	}
@@ -43,7 +44,7 @@ void test_null_sort() {
 		auto a = Data::random(i);
 		auto b = a;
 
-		null_sort(a);
+		a.sort(null_sort);
 		assert(a == b);
 	}
 }
@@ -58,9 +59,7 @@ void test_std_sort() {
 
 	auto a = Data(numbers);
 	auto b = Data(sorted_numbers);
-
-	std_sort(a);
-
+	a.sort(std_sort);
 	assert(a == b);
 }
 
