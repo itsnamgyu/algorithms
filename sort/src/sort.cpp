@@ -10,8 +10,16 @@ void std_sort(Data &data) {
 void null_sort(Data &data) {
 }
 
-bool sorts_correctly(sort_func sort, int iterations) {
+bool validate_sort(sort_func sort, bool verbose, int iterations) {
+	if (verbose)
+		printf("validating sort with %d iterations\n", iterations);
+
+	int tenth = iterations / 10;
+
 	for (int i = 0; i < iterations; ++i) {
+		if (verbose && (i + 1) % tenth == 0)
+			printf("%d0%% complete\n", (i + 1) / tenth);
+
 		Data data = Data::random(i);
 		Data copy = data;
 
@@ -56,17 +64,23 @@ void test_std_sort() {
 	assert(a == b);
 }
 
-void test_sorts_correctly() {
-	printf("[%s] sorts_correctly test...\n", __FILE__);
+void test_validate_sort() {
+	printf("[%s] validate_sort test...\n", __FILE__);
 
-	assert(!sorts_correctly(null_sort));
-	assert(sorts_correctly(std_sort));
+	assert(!validate_sort(null_sort));
+	assert(validate_sort(std_sort));
+}
+
+void test_verbose_validate_sort() {
+	printf("[%s] verbose validate_sort test...\n", __FILE__);
+	assert(validate_sort(std_sort, true));
 }
 
 int main() {
 	test_null_sort();
 	test_std_sort();
-	test_sorts_correctly();
+	test_validate_sort();
+	test_verbose_validate_sort();
 		
 	return 0;
 }
