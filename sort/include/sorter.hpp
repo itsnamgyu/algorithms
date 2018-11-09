@@ -4,7 +4,7 @@
 
 typedef void (*sort_func)(int *array, int begin, int end);
 
-bool validate_sort(sort_func sorter, bool verbose=false, int iterations=5000);
+bool validate_sort(sort_func sorter, bool verbose=false, int iterations=2000);
 
 void std_sort(int *array, int begin, int end);
 void null_sort(int *array, int begin, int end);
