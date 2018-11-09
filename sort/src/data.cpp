@@ -1,4 +1,5 @@
 #include <cstdio>
+#include <cstdlib>
 #include <vector>
 #include <stdexcept>
 #include <cassert>
@@ -8,6 +9,10 @@
 
 Data::Data(const std::vector<int> &numbers) {
 	this->numbers = numbers;
+}
+
+Data Data::random(int count) {
+	srand(time(NULL));
 }
 
 Data Data::load(char *filename) {
@@ -41,14 +46,28 @@ void Data::save(char *filename) {
 		throw std::runtime_error(std::string("Can't open output file ") + std::string(filename));
 
 	fprintf(f, "%ld ", numbers.size());
-	for (auto n : numbers)
-		fprintf(f, "%d ", n);
+	print(f);
 
 	fclose(f);
 }
 
+void Data::print(FILE *f) {
+	for (auto n : numbers)
+		fprintf(f, "%d ", n);
+}
+
 #ifdef TEST
 #undef TEST
+void test_print() {
+	printf("[%s] manual print test...\n", __FILE__);
+
+	int _numbers[] = { 0, 24, 9358, -29483, 20384 };
+	auto numbers = std::vector<int>(_numbers, std::end(_numbers));
+
+	auto a = Data(numbers);
+	a.print(stdout);
+}
+
 void test_io() {
 	printf("[%s] io test...\n", __FILE__);
 
@@ -83,6 +102,8 @@ void test_comparison() {
 }
 
 int main() {
+	test_print();
+	printf("\n");
 	test_io();
 	test_comparison();
 	return 0;
