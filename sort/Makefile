@@ -31,7 +31,10 @@ test:
 	@for S in $(_TEST_SRC); do \
 		echo "Testing $$S..."; \
 		$(CC) $(STD) -D TEST -o test $$S; \
-		./test; \
+		./test_exec; \
 	done;
 	@echo "All tests successful!"
-	@rm -f test
+	@rm -f test_exec
+
+clean:
+	@rm -f test_data.txt
