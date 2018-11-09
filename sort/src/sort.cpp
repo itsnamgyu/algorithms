@@ -22,12 +22,28 @@ bool validate_sort(sort_func sorter, bool verbose, int iterations) {
 			printf("%d0%% complete\n", (i + 1) / tenth);
 
 		Data data = Data::random(i);
+		Data a = data;
+		Data b = data;
 		Data copy = data;
 
-		data.sort(sorter);
-		copy.sort(std_sort);
+		a.sort(std_sort);
+		b.sort(sorter);
 
-		if (data != copy) return false;
+		if (a != b) {
+			if (verbose) {
+				printf("INVALID SORT\n");
+				printf("Original\n");
+				data.print(stdout);
+				printf("\n");
+				printf("Sorted Correctly\n");
+				a.print(stdout);
+				printf("\n");
+				printf("Sorted\n");
+				b.print(stdout);
+				printf("\n");
+			}
+			return false;
+		}
 	}
 
 	return true;
