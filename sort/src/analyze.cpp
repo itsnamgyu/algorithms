@@ -6,10 +6,10 @@
 #include <algorithm>
 
 
-#ifdef THOROUGH
-#define THOROUGH 1
+#ifdef ALL
+#define ALL 1
 #else
-#define THOROUGH 0
+#define ALL 0
 #endif
 
 static sort_func sorters[] = {
@@ -60,7 +60,7 @@ int main(void) {
 		return -1;
 	}
 
-	if (THOROUGH) Data::random(1 << 20).sort(std_sort);  // warm up CPU!
+	if (ALL) Data::random(1 << 20).sort(std_sort);  // warm up CPU!
 
 	const int n_sorters = sizeof(sorters) / sizeof(*sorters);
 	const int n_main_sorters = sizeof(main_sorters) / sizeof(*main_sorters);
@@ -90,7 +90,7 @@ int main(void) {
 }
 
 static int get_iter_count(int input_size) {
-	int m = THOROUGH ? 5 : 1;
+	int m = ALL ? 5 : 1;
 
 	if (input_size < 64)
 		return 2000 * m;
@@ -106,7 +106,7 @@ static int get_iter_count(int input_size) {
 
 static void test_linear(FILE *f_random, FILE *f_reverse) {
 	const int n_sorters = sizeof(sorters) / sizeof(*sorters);
-	int max = THOROUGH ? 1024 : 256;
+	int max = ALL ? 1024 : 256;
 
 	printf("calculating times for input_size = 2 ~ %d\n", max);
 	printf("\n");
@@ -142,8 +142,8 @@ static void test_linear(FILE *f_random, FILE *f_reverse) {
 
 static void test_log(FILE *f_random, FILE *f_reverse) {
 	const int n_sorters = sizeof(sorters) / sizeof(*sorters);
-	int max_power = THOROUGH ? 28 : 24;
-	int max_square_power = THOROUGH ? 18 : 16;
+	int max_power = ALL ? 28 : 24;
+	int max_square_power = ALL ? 18 : 16;
 
 	printf("calculating times for input_size = 2^1 ~ 2^%d\n", max_power);
 	printf("\n");
@@ -188,7 +188,7 @@ static void test_log(FILE *f_random, FILE *f_reverse) {
 static void test_benchmark(FILE *f_random, FILE *f_reverse) {
 	const int n_main_sorters = sizeof(main_sorters) / sizeof(*main_sorters);
 	int input_size = 1 << 20;
-	int iters = THOROUGH ? 500 : 50;
+	int iters = ALL ? 500 : 50;
 
 	auto time_random = std::vector<double>(n_main_sorters, 0);
 	auto time_reverse = std::vector<double>(n_main_sorters, 0);
