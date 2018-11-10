@@ -109,10 +109,10 @@ static void test_linear(FILE *f_random, FILE *f_reverse) {
 	int max = THOROUGH ? 1024 : 256;
 
 	printf("calculating times for input_size = 2 ~ %d\n", max);
+	printf("\n");
 	for (int input_size = 1; input_size < max; ++input_size) {
-		if (input_size % 25 == 0) {
-			printf("%.02f%% complete\n", (input_size - 2) / 253.0f * 100);
-		}
+		if ((input_size + 1) % 32 == 0)
+			printf("\r%.2f%% complete\n", (float) (input_size - 2) / (max - 2) * 100);
 
 		fprintf(f_random, "%d,", input_size);
 		fprintf(f_reverse, "%d,", input_size);
@@ -124,10 +124,6 @@ static void test_linear(FILE *f_random, FILE *f_reverse) {
 		for (int i = 0; i < iters; ++i) {
 			Data data = Data::random(input_size);
 			for (int index = 0; index < n_sorters; ++index) {
-				if (input_size > (1 << 15) && index == 0) {
-					printf("continue\n");
-					continue;
-				}
 				Data d = data;
 				time_random[index] += d.sort(sorters[index]);
 				std::reverse(data.numbers.begin(), data.numbers.end());
@@ -142,7 +138,6 @@ static void test_linear(FILE *f_random, FILE *f_reverse) {
 		fprintf(f_random, "\n");
 		fprintf(f_reverse, "\n");
 	}
-	printf("done\n");
 }
 
 static void test_log(FILE *f_random, FILE *f_reverse) {
@@ -151,8 +146,10 @@ static void test_log(FILE *f_random, FILE *f_reverse) {
 	int max_square_power = THOROUGH ? 18 : 16;
 
 	printf("calculating times for input_size = 2^1 ~ 2^%d\n", max_power);
-	for (int input_size = 1; input_size <= (1 << max_power); input_size = input_size << 1) {
-		printf("calculating times for input_size = %d\n", input_size);
+	printf("\n");
+	for (int power = 0; power <= max_power; ++power) {
+		int input_size = 1 << power;
+		printf("\rcalculating times for input_size = 2^%02d = %d\n", power, input_size);
 
 		fprintf(f_random, "%d,", input_size);
 		fprintf(f_reverse, "%d,", input_size);
@@ -186,7 +183,6 @@ static void test_log(FILE *f_random, FILE *f_reverse) {
 		fflush(f_random);
 		fflush(f_reverse);
 	}
-	printf("done\n");
 }
 
 static void test_benchmark(FILE *f_random, FILE *f_reverse) {
@@ -198,9 +194,9 @@ static void test_benchmark(FILE *f_random, FILE *f_reverse) {
 	auto time_reverse = std::vector<double>(n_main_sorters, 0);
 
 	printf("calculating times for input_size = 2^20\n");
+	printf("\n");
 	for (int i = 0; i < iters; ++i) {
-		if ((iters + 1) % 10 == 0)
-			printf("%02d of %02d\n", i, iters);
+		printf("\r%02d of %02d\n", i, iters);
 
 		Data data = Data::random(input_size);
 		for (int index = 0; index < n_main_sorters; ++index) {
@@ -214,7 +210,7 @@ static void test_benchmark(FILE *f_random, FILE *f_reverse) {
 	for (int index = 0; index < n_main_sorters; ++index) {
 		fprintf(f_random, "%lf,", time_random[index] / iters * 1000);
 		fprintf(f_reverse, "%lf,", time_reverse[index] / iters * 1000);
-		printf("%s: %lf, %lf\n", main_sorter_names[index],
+		printf("%-15s%20.6lf%20.6lf\n", main_sorter_names[index],
 				time_random[index] / iters * 1000,
 				time_reverse[index] / iters * 1000);
 	}
@@ -223,5 +219,4 @@ static void test_benchmark(FILE *f_random, FILE *f_reverse) {
 	
 	fflush(f_random);
 	fflush(f_reverse);
-	printf("done\n");
 }
