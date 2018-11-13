@@ -11,4 +11,7 @@ void null_sort(int *array, int begin, int end);
 void insertion_sort(int *array, int begin, int end);
 void merge_sort(int *array, int begin, int end);
 void quick_sort(int *array, int begin, int end);
+
+void median_qs(int *array, int begin, int end);
+
 void ho_sort(int *array, int begin, int end);

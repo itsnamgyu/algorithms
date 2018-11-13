@@ -10,8 +10,21 @@ static int pivot_and_get_index(int *array, int begin, int end);
 
 static inline void swap(int *array, int a, int b);
 
+static inline int get_median(int *array, int a, int b, int c);
+
 void quick_sort(int *array, int begin, int end) {
 	if (begin >= end) return;
+	int pivot = pivot_and_get_index(array, begin, end);
+	quick_sort(array, begin, pivot - 1);
+	quick_sort(array, pivot + 1, end);
+}
+
+void median_qs(int *array, int begin, int end) {
+	if (begin >= end) return;
+
+	int median_index = get_median(array, begin, (begin + end) / 2, end);
+	swap(array, median_index, end);
+
 	int pivot = pivot_and_get_index(array, begin, end);
 	quick_sort(array, begin, pivot - 1);
 	quick_sort(array, pivot + 1, end);
@@ -39,12 +52,26 @@ static inline void swap(int *array, int a, int b) {
 	array[b] = temp;
 }
 
+static inline int get_median(int *array, int a, int b, int c) {
+	int aa = array[a];
+	int bb = array[b];
+	int cc = array[c];
+
+	int x = aa - bb;
+    int y = bb - cc;
+    int z = aa - cc;
+    if (x * y > 0) return b;
+    if (x * z > 0) return c;
+    return a;
+}
+
 #ifdef TEST
 #undef TEST
 #include "sort.cpp"
 #include "data.cpp"
 int main() {
 	assert(validate_sort(quick_sort, true));
+	assert(validate_sort(median_qs, true));
 
 	return 0;
 }

@@ -17,6 +17,7 @@ static sort_func sorters[] = {
 	std_sort,
 	merge_sort,
 	quick_sort,
+	median_qs,
 	//ho_sort,
 };
 
@@ -25,18 +26,21 @@ static char sorter_names[][100] = {
 	"std_sort",
 	"merge_sort",
 	"quick_sort",
+	"median_qs",
 	//"ho_sort",
 };
 
 static sort_func main_sorters[] = {
 	std_sort,
 	merge_sort,
+	median_qs,
 	//ho_sort,
 };
 
 static char main_sorter_names[][100] = {
 	"std_sort",
 	"merge_sort",
+	"median_qs",
 	//"ho_sort",
 };
 
