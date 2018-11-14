@@ -80,10 +80,10 @@ int main(void) {
 
 
 	for (int i = 0; i < n_sorters; ++i) {
-		if (sorter_times[i] == LOG) {
-			fprintf(f_random, "%s,", sorter_names[i]);
-			fprintf(f_reverse, "%s,", sorter_names[i]);
-		}
+		if (sorter_times[index] == SQR) continue;
+		fprintf(f_random, "%s,", sorter_names[i]);
+		if (sorter_times[index] == ALOG) continue;
+		fprintf(f_reverse, "%s,", sorter_names[i]);
 	}
 	fprintf(f_random, "\n");
 	fprintf(f_reverse, "\n");
