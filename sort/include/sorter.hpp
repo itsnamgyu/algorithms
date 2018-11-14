@@ -10,8 +10,9 @@ void std_sort(int *array, int begin, int end);
 void null_sort(int *array, int begin, int end);
 void insertion_sort(int *array, int begin, int end);
 void merge_sort(int *array, int begin, int end);
+void heap_sort(int *array, int begin, int end);
 void quick_sort(int *array, int begin, int end);
 
 void median_qs(int *array, int begin, int end);
 
-void ho_sort(int *array, int begin, int end);
+void sorty_mcsortface(int *array, int begin, int end);
