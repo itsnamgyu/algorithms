@@ -199,26 +199,33 @@ static void test_benchmark(FILE *f_random, FILE *f_reverse) {
 
 		Data data = Data::random(input_size);
 		for (int index = 0; index < n_sorters; ++index) {
-			if (sorter_times[index] == LOG) {
-				Data d = data;
-				time_random[index] += d.sort(sorters[index]);
-				std::reverse(data.numbers.begin(), data.numbers.end());
-				time_reverse[index] += d.sort(sorters[index]);
-			}
+			if (sorter_times[index] == SQR) continue;
+			Data d = data;
+			time_random[index] += d.sort(sorters[index]);
+			std::reverse(data.numbers.begin(), data.numbers.end());
+
+			if (sorter_times[index] == ALOG) continue;
+			time_reverse[index] += d.sort(sorters[index]);
 		}
 	}
 	
 	for (int index = 0; index < n_sorters; ++index) {
-		if (sorter_times[index] == LOG) {
-			fprintf(f_random, "%lf,", time_random[index] / iters * 1000);
-			fprintf(f_reverse, "%lf,", time_reverse[index] / iters * 1000);
-			printf("%-15s%20.6lf%20.6lf\n", sorter_names[index],
-					time_random[index] / iters * 1000,
-					time_reverse[index] / iters * 1000);
-		}
+		if (sorter_times[index] == SQR) continue;
+
+		printf("\n%-15s", sorter_names[index]);
+
+		fprintf(f_random, "%lf,", time_random[index] / iters * 1000);
+		printf("%20.6lf", time_random[index] / iters * 1000);
+
+		if (sorter_times[index] == ALOG) continue;
+
+		fprintf(f_reverse, "%lf,", time_reverse[index] / iters * 1000);
+		printf("%20.6lf", time_reverse[index] / iters * 1000);
 	}
+
 	fprintf(f_random, "\n");
 	fprintf(f_reverse, "\n");
+	printf("\n");
 	
 	fflush(f_random);
 	fflush(f_reverse);
