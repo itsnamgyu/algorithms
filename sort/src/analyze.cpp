@@ -21,6 +21,7 @@ enum TimeComplexity {
 static sort_func sorters[] = {
 	std_sort,
 	merge_sort,
+	heap_sort,
 	quick_sort,
 	median_qs,
 	insertion_sort,
@@ -28,11 +29,13 @@ static sort_func sorters[] = {
 static char sorter_names[][100] {
 	"std_sort",
 	"merge_sort",
+	"heap_sort",
 	"quick_sort",
 	"median_qs",
 	"insertion_sort",
 };
 static TimeComplexity sorter_times[] = {
+	LOG,
 	LOG,
 	LOG,
 	ALOG,
