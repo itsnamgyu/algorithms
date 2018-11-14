@@ -13,9 +13,9 @@
 #endif
 
 enum TimeComplexity {
-	log,  // NlogN worst case
-	alog,  // NlogN average case (N^2 on reverse)
-	sqr,  // N^2 on average case
+	LOG,  // NlogN worst case
+	ALOG,  // NlogN average case (N^2 on reverse)
+	SQR,  // N^2 on average case
 };
 
 static sort_func sorters[] = {
@@ -33,11 +33,11 @@ static char sorter_names[][100] {
 	"insertion_sort",
 };
 static TimeComplexity sorter_times[] = {
-	log,
-	log,
-	alog,
-	alog,
-	sqr
+	LOG,
+	LOG,
+	ALOG,
+	ALOG,
+	SQR
 };
 static const int n_sorters = sizeof(sorters) / sizeof(*sorters);
 
@@ -77,7 +77,7 @@ int main(void) {
 
 
 	for (int i = 0; i < n_sorters; ++i) {
-		if (sorter_times[i] == log) {
+		if (sorter_times[i] == LOG) {
 			fprintf(f_random, "%s,", sorter_names[i]);
 			fprintf(f_reverse, "%s,", sorter_names[i]);
 		}
@@ -162,12 +162,12 @@ static void test_log(FILE *f_random, FILE *f_reverse) {
 		for (int i = 0; i < iters; ++i) {
 			Data data = Data::random(input_size);
 			for (int index = 0; index < n_sorters; ++index) {
-				if (input_size > (1 << max_square_power) && sorter_times[index] == sqr)
+				if (input_size > (1 << max_square_power) && sorter_times[index] == SQR)
 					continue;  // skip N^2 algorithsm
 				Data d = data;
 				time_random[index] += d.sort(sorters[index]);
 				std::reverse(data.numbers.begin(), data.numbers.end());
-				if (input_size > (1 << max_square_power) && sorter_times[index] == alog)
+				if (input_size > (1 << max_square_power) && sorter_times[index] == ALOG)
 					continue;  // skip worst N^2 algorithms
 				time_reverse[index] += d.sort(sorters[index]);
 			}
@@ -199,7 +199,7 @@ static void test_benchmark(FILE *f_random, FILE *f_reverse) {
 
 		Data data = Data::random(input_size);
 		for (int index = 0; index < n_sorters; ++index) {
-			if (sorter_times[index] == log) {
+			if (sorter_times[index] == LOG) {
 				Data d = data;
 				time_random[index] += d.sort(sorters[index]);
 				std::reverse(data.numbers.begin(), data.numbers.end());
@@ -209,7 +209,7 @@ static void test_benchmark(FILE *f_random, FILE *f_reverse) {
 	}
 	
 	for (int index = 0; index < n_sorters; ++index) {
-		if (sorter_times[index] == log) {
+		if (sorter_times[index] == LOG) {
 			fprintf(f_random, "%lf,", time_random[index] / iters * 1000);
 			fprintf(f_reverse, "%lf,", time_reverse[index] / iters * 1000);
 			printf("%-15s%20.6lf%20.6lf\n", sorter_names[index],
