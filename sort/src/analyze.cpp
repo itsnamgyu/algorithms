@@ -24,6 +24,8 @@ static sort_func sorters[] = {
 	heap_sort,
 	quick_sort,
 	median_qs,
+	random_qs,
+	local_random_qs,
 	insertion_sort,
 };
 static char sorter_names[][100] {
@@ -32,6 +34,8 @@ static char sorter_names[][100] {
 	"heap_sort",
 	"quick_sort",
 	"median_qs",
+	"random_qs",
+	"local_random_qs",
 	"insertion_sort",
 };
 static TimeComplexity sorter_times[] = {
