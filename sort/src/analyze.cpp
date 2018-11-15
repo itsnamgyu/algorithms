@@ -84,9 +84,9 @@ int main(void) {
 
 
 	for (int i = 0; i < n_sorters; ++i) {
-		if (sorter_times[index] == SQR) continue;
+		if (sorter_times[i] == SQR) continue;
 		fprintf(f_random, "%s,", sorter_names[i]);
-		if (sorter_times[index] == ALOG) continue;
+		if (sorter_times[i] == ALOG) continue;
 		fprintf(f_reverse, "%s,", sorter_names[i]);
 	}
 	fprintf(f_random, "\n");
@@ -98,10 +98,12 @@ int main(void) {
 }
 
 static int get_iter_count(int input_size) {
-	int m = ALL ? 5 : 1;
+	int m = ALL ? 10 : 1;
 
+	if (input_size < 32)
+		return 10000 * m;
 	if (input_size < 64)
-		return 2000 * m;
+		return 2500 * m;
 	else if (input_size < 256)
 		return 500 * m;
 	else if (input_size < (1 << 10))
