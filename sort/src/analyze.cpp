@@ -94,10 +94,12 @@ int main(void) {
 }
 
 static int get_iter_count(int input_size) {
-	int m = ALL ? 5 : 1;
+	int m = ALL ? 10 : 1;
 
+	if (input_size < 32)
+		return 10000 * m;
 	if (input_size < 64)
-		return 2000 * m;
+		return 2500 * m;
 	else if (input_size < 256)
 		return 500 * m;
 	else if (input_size < (1 << 10))
