@@ -45,8 +45,10 @@ static TimeComplexity sorter_times[] = {
 	LOG,
 	LOG,
 	ALOG,
-	ALOG,
-	ALOG,
+	LOG,
+	LOG,
+	LOG,
+	LOG,
 	SQR
 };
 static const int n_sorters = sizeof(sorters) / sizeof(*sorters);
