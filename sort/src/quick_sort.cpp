@@ -33,6 +33,7 @@ void quick_sort(int *array, int begin, int end) {
 
 static void _shifted_mean_qs(int *array, int begin, int end, int min, int max) {
 	if (begin >= end) return;
+	if (min == max) return;
 
 	int median = array[get_median(array, begin, (begin + end) / 2, end)];
 	int mean = ((float) min + (float) max) / 2 * INV_MEAN_SHIFT_FACTOR + (float) median * MEAN_SHIFT_FACTOR;
@@ -40,7 +41,10 @@ static void _shifted_mean_qs(int *array, int begin, int end, int min, int max) {
 	int mid_right = pivot_and_get_index_by_value(array, begin, end, mean);
 
 	if (mid_right == begin || mid_right == end + 1) {
-		shifted_mean_qs(array, begin, end);
+		if (end - begin < 16)
+			insertion_sort(array, begin, end);
+		else
+			shifted_mean_qs(array, begin, end);
 		return;
 	}
 
