@@ -9,7 +9,7 @@ OBJ_DIR = obj
 
 SRC = main.cpp data.cpp sort.cpp insertion_sort.cpp merge_sort.cpp quick_sort.cpp heap_sort.cpp
 ANALYSIS_SRC = analyze.cpp data.cpp sort.cpp insertion_sort.cpp merge_sort.cpp quick_sort.cpp heap_sort.cpp
-DEPENDANCY_SRC = sort.cpp insertion_sort.cpp merge_sort.cpp quick_sort.cpp heap_sort.cpp
+DEPENDANCY_SRC = data.cpp sort.cpp insertion_sort.cpp merge_sort.cpp quick_sort.cpp heap_sort.cpp
 TEST_SRC = data.cpp sort.cpp insertion_sort.cpp merge_sort.cpp quick_sort.cpp heap_sort.cpp
 
 _SRC = $(patsubst %.cpp, $(SRC_DIR)/%.cpp, $(SRC))
@@ -26,14 +26,10 @@ $(TARGET) : $(_OBJ)
 
 analyze : $(_ANALYSIS_OBJ)
 	$(CC) -o $@ $(_ANALYSIS_OBJ)
-	@./$@
-	@rm -f $@
 
 analyze_all : $(_DEPENDANCY_OBJ) src/analyze.cpp
 	$(CC) $(CFLAGS) -c src/analyze.cpp -o obj/analyze.o -D ALL
 	$(CC) -o $@ $(_ANALYSIS_OBJ)
-	@./$@
-	@rm -f $@
 
 $(OBJ_DIR)/%.o : $(SRC_DIR)/%.cpp
 	@mkdir -p $@D
@@ -51,6 +47,8 @@ test:
 	@rm -f test_exec
 
 clean:
+	@rm -rf obj
 	@rm -f test_data.txt
 	@rm -f test_exec
 	@rm -f analyze
+	@rm -f analyze_all
