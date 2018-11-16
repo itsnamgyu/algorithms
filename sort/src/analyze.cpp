@@ -120,7 +120,7 @@ static int get_iter_count(int input_size) {
 }
 
 static void test_linear(FILE *f_random, FILE *f_reverse) {
-	int max = ALL ? 1024 : 256;
+	int max = ALL ? 256 : 128;
 
 	printf("calculating times for input_size = 2 ~ %d\n", max);
 	printf("\n");
@@ -156,8 +156,8 @@ static void test_linear(FILE *f_random, FILE *f_reverse) {
 
 static void test_log(FILE *f_random, FILE *f_reverse) {
 	const int n_sorters = sizeof(sorters) / sizeof(*sorters);
-	int max_power = ALL ? 28 : 24;
-	int max_square_power = ALL ? 18 : 16;
+	int max_power = ALL ? 28 : 20;
+	int max_square_power = ALL ? 18 : 15;
 
 	printf("calculating times for input_size = 2^1 ~ 2^%d\n", max_power);
 	printf("\n");
