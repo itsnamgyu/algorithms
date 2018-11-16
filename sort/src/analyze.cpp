@@ -26,6 +26,7 @@ static sort_func sorters[] = {
 	median_qs,
 	random_qs,
 	local_random_qs,
+	shifted_mean_qs,
 	insertion_sort,
 };
 static char sorter_names[][100] {
@@ -36,12 +37,14 @@ static char sorter_names[][100] {
 	"median_qs",
 	"random_qs",
 	"local_random_qs",
+	"shifted_mean_qs",
 	"insertion_sort",
 };
 static TimeComplexity sorter_times[] = {
 	LOG,
 	LOG,
 	LOG,
+	ALOG,
 	ALOG,
 	ALOG,
 	SQR

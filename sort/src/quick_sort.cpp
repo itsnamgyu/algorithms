@@ -8,6 +8,7 @@
 
 static float MEAN_SHIFT_FACTOR = 0.25f;
 static float INV_MEAN_SHIFT_FACTOR = 1.0f - MEAN_SHIFT_FACTOR;
+
 /*
  * uses end as pivot element
  */
@@ -31,17 +32,26 @@ void quick_sort(int *array, int begin, int end) {
 }
 
 static void _shifted_mean_qs(int *array, int begin, int end, int min, int max) {
+	if (begin >= end) return;
+
 	int median = array[get_median(array, begin, (begin + end) / 2, end)];
-	int mean = (min + max) / 2 * INV_MEAN_SHIFT_FACTOR + median * MEAN_SHIFT_FACTOR;
+	int mean = ((float) min + (float) max) / 2 * INV_MEAN_SHIFT_FACTOR + (float) median * MEAN_SHIFT_FACTOR;
 
 	int mid_right = pivot_and_get_index_by_value(array, begin, end, mean);
 
-	_shifted_mean_qs(array, begin, mid_right - 1, min, (mean + max) / 2);
-	_shifted_mean_qs(array, mid_right, end, (min + mean) / 2, max);
+	if (mid_right == begin || mid_right == end + 1) {
+		shifted_mean_qs(array, begin, end);
+		return;
+	}
+
+	_shifted_mean_qs(array, begin, mid_right - 1, min, mean);
+	_shifted_mean_qs(array, mid_right, end, mean, max);
 }
 void shifted_mean_qs(int *array, int begin, int end) {
+	if (begin >= end) return;
+
 	auto min_max = get_min_max(array, begin, end);
-	_mean_qs(array, begin, end, min_max.first, min_max.second);
+	_shifted_mean_qs(array, begin, end, min_max.first, min_max.second);
 }
 
 void median_qs(int *array, int begin, int end) {
@@ -68,6 +78,7 @@ void random_qs(int *array, int begin, int end) {
 }
 
 void local_random_qs(int *array, int begin, int end) {
+	if (begin >= end) return;
 	local_sort(array, begin, end);
 	random_qs(array, begin, end);
 }
@@ -91,7 +102,6 @@ static int pivot_and_get_index(int *array, int begin, int end) {
 static int pivot_and_get_index_by_value(int *array, int begin, int end, int pivot) {
 	int to_push = begin;
 	int to_pull = begin;
-	int pivot;
 	
 	while (to_pull <= end) {
 		if (array[to_pull] < pivot)  // pull!
@@ -147,13 +157,13 @@ static void local_sort(int *array, int begin, int end) {
 }
 
 static std::pair<int,int> get_min_max(int *array, int begin, int end) {
-	int min = INT_MAX;
-	int max = INT_MIN;
-	int *p;
+	int min = array[begin];
+	int max = array[begin];
 
-	for (int i = begin; i <= end; ++i, ++p) {
-		if (*p < min) min = *p;
-		else if (max < *p) max = *p;
+	for (int i = begin + 1; i <= end; ++i) {
+		int a = array[i];
+		if (a < min) min = a;
+		else if (max < a) max = a;
 	}
 	
 	return std::make_pair(min, max);
@@ -168,6 +178,7 @@ int main() {
 	assert(validate_sort(median_qs, true));
 	assert(validate_sort(random_qs, true));
 	assert(validate_sort(local_random_qs, true));
+	assert(validate_sort(shifted_mean_qs, true));
 
 	return 0;
 }
