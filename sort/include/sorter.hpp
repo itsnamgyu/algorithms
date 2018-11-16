@@ -16,5 +16,6 @@ void quick_sort(int *array, int begin, int end);
 void median_qs(int *array, int begin, int end);
 void random_qs(int *array, int begin, int end);
 void local_random_qs(int *array, int begin, int end);
+void shifted_mean_qs(int *array, int begin, int end);
 
 void sorty_mcsortface(int *array, int begin, int end);
