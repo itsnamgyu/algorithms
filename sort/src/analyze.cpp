@@ -205,7 +205,7 @@ static void test_log(FILE *f_random, FILE *f_reverse) {
 
 static void test_benchmark(FILE *f_random, FILE *f_reverse) {
 	int input_size = 1 << 20;
-	int iters = ALL ? 500 : 50;
+	int iters = ALL ? 250 : 20;
 
 	auto time_random = std::vector<double>(n_sorters, 0);
 	auto time_reverse = std::vector<double>(n_sorters, 0);
