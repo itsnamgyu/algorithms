@@ -30,6 +30,11 @@ static sort_func sorters[] = {
 	random_qs,
 	local_random_qs,
 	shifted_mean_qs,
+	early_quick_sort,
+	early_median_qs,
+	early_random_qs,
+	early_local_random_qs,
+	early_shifted_mean_qs,
 };
 static char sorter_names[][100] {
 	"std_sort",
@@ -42,6 +47,11 @@ static char sorter_names[][100] {
 	"random_qs",
 	"local_random_qs",
 	"shifted_mean_qs",
+	"early_quick_sort",
+	"early_median_qs",
+	"early_random_qs",
+	"early_local_random_qs",
+	"early_shifted_mean_qs",
 };
 static TimeComplexity sorter_times[] = {
 	LOG,
@@ -50,6 +60,11 @@ static TimeComplexity sorter_times[] = {
 	ALOG,
 	SQR,
 	LIN,
+	LOG,
+	LOG,
+	LOG,
+	LOG,
+	ALOG,
 	LOG,
 	LOG,
 	LOG,

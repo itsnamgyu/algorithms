@@ -22,4 +22,10 @@ void random_qs(int *array, int begin, int end);
 void local_random_qs(int *array, int begin, int end);
 void shifted_mean_qs(int *array, int begin, int end);
 
+void early_quick_sort(int *array, int begin, int end);
+void early_median_qs(int *array, int begin, int end);
+void early_random_qs(int *array, int begin, int end);
+void early_local_random_qs(int *array, int begin, int end);
+void early_shifted_mean_qs(int *array, int begin, int end);
+
 void sorty_mcsortface(int *array, int begin, int end);

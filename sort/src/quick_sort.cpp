@@ -9,6 +9,9 @@
 static float MEAN_SHIFT_FACTOR = 0.25f;
 static float INV_MEAN_SHIFT_FACTOR = 1.0f - MEAN_SHIFT_FACTOR;
 
+static unsigned int stop_size = 0;
+static unsigned int EARLY_STOP_SIZE = 32;
+
 /*
  * uses end as pivot element
  */
@@ -24,15 +27,17 @@ static void local_sort(int *array, int begin, int end);
 
 static std::pair<int,int> get_min_max(int *array, int begin, int end);
 
+
 void quick_sort(int *array, int begin, int end) {
-	if (begin >= end) return;
+	if (end <= begin || ((long long) end - begin) <= stop_size) return;
 	int pivot = pivot_and_get_index(array, begin, end);
 	quick_sort(array, begin, pivot - 1);
 	quick_sort(array, pivot + 1, end);
 }
 
+
 static void _shifted_mean_qs(int *array, int begin, int end, int min, int max) {
-	if (begin >= end) return;
+	if (end <= begin || ((long long) end - begin) <= stop_size) return;
 	if (min == max) return;
 	if (end - begin < 128) {
 		median_qs(array, begin, end);
@@ -53,14 +58,15 @@ static void _shifted_mean_qs(int *array, int begin, int end, int min, int max) {
 	_shifted_mean_qs(array, mid_right, end, mean, max);
 }
 void shifted_mean_qs(int *array, int begin, int end) {
-	if (begin >= end) return;
+	if (end <= begin || ((long long) end - begin) <= stop_size) return;
 
 	auto min_max = get_min_max(array, begin, end);
 	_shifted_mean_qs(array, begin, end, min_max.first, min_max.second);
 }
 
+
 void median_qs(int *array, int begin, int end) {
-	if (begin >= end) return;
+	if (end <= begin || ((long long) end - begin) <= stop_size) return;
 
 	int median_index = get_median(array, begin, (begin + end) / 2, end);
 	swap(array, median_index, end);
@@ -70,8 +76,9 @@ void median_qs(int *array, int begin, int end) {
 	median_qs(array, pivot + 1, end);
 }
 
+
 void random_qs(int *array, int begin, int end) {
-	if (begin >= end) return;
+	if (end <= begin || ((long long) end - begin) <= stop_size) return;
 	int n = end - begin + 1;
 
 	int random_index = begin + rand() % n;
@@ -82,11 +89,53 @@ void random_qs(int *array, int begin, int end) {
 	random_qs(array, pivot + 1, end);
 }
 
+
 void local_random_qs(int *array, int begin, int end) {
-	if (begin >= end) return;
+	if (end <= begin || ((long long) end - begin) <= stop_size) return;
 	local_sort(array, begin, end);
 	random_qs(array, begin, end);
 }
+
+
+void early_quick_sort(int *array, int begin, int end) {
+	stop_size = EARLY_STOP_SIZE;
+	quick_sort(array, begin, end);
+	stop_size = 0;
+	insertion_sort(array, begin, end);
+}
+
+
+void early_median_qs(int *array, int begin, int end) {
+	stop_size = EARLY_STOP_SIZE;
+	median_qs(array, begin, end);
+	stop_size = 0;
+	insertion_sort(array, begin, end);
+}
+
+
+void early_random_qs(int *array, int begin, int end) {
+	stop_size = EARLY_STOP_SIZE;
+	random_qs(array, begin, end);
+	stop_size = 0;
+	insertion_sort(array, begin, end);
+}
+
+
+void early_local_random_qs(int *array, int begin, int end) {
+	stop_size = EARLY_STOP_SIZE;
+	local_random_qs(array, begin, end);
+	stop_size = 0;
+	insertion_sort(array, begin, end);
+}
+
+
+void early_shifted_mean_qs(int *array, int begin, int end) {
+	stop_size = EARLY_STOP_SIZE;
+	shifted_mean_qs(array, begin, end);
+	stop_size = 0;
+	insertion_sort(array, begin, end);
+}
+
 
 static int pivot_and_get_index(int *array, int begin, int end) {
 	int to_push = begin;
@@ -178,12 +227,19 @@ static std::pair<int,int> get_min_max(int *array, int begin, int end) {
 #undef TEST
 #include "sort.cpp"
 #include "data.cpp"
+#include "insertion_sort.cpp"
 int main() {
 	assert(validate_sort(quick_sort, true));
 	assert(validate_sort(median_qs, true));
 	assert(validate_sort(random_qs, true));
 	assert(validate_sort(local_random_qs, true));
 	assert(validate_sort(shifted_mean_qs, true));
+
+	assert(validate_sort(early_quick_sort, true));
+	assert(validate_sort(early_median_qs, true));
+	assert(validate_sort(early_random_qs, true));
+	assert(validate_sort(early_local_random_qs, true));
+	assert(validate_sort(early_shifted_mean_qs, true));
 
 	return 0;
 }
