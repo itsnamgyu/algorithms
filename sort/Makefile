@@ -47,8 +47,9 @@ test:
 	@rm -f test_exec
 
 clean:
-	@rm -rf obj
-	@rm -f test_data.txt
-	@rm -f test_exec
-	@rm -f analyze
-	@rm -f analyze_all
+	rm -rf obj
+	rm -f test_data.txt
+	rm -f input.txt
+	rm -f test_exec
+	rm -f analyze
+	rm -f analyze_all

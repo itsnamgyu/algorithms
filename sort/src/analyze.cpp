@@ -13,6 +13,7 @@
 #endif
 
 enum TimeComplexity {
+	LIN,
 	LOG,  // NlogN worst case
 	ALOG,  // NlogN average case (N^2 on reverse)
 	SQR,  // N^2 on average case
@@ -23,33 +24,36 @@ static sort_func sorters[] = {
 	merge_sort,
 	heap_sort,
 	quick_sort,
+	insertion_sort,
+	bucket_sort,
 	median_qs,
 	random_qs,
 	local_random_qs,
 	shifted_mean_qs,
-	insertion_sort,
 };
 static char sorter_names[][100] {
 	"std_sort",
 	"merge_sort",
 	"heap_sort",
 	"quick_sort",
+	"insertion_sort",
+	"bucket_sort",
 	"median_qs",
 	"random_qs",
 	"local_random_qs",
 	"shifted_mean_qs",
-	"insertion_sort",
 };
 static TimeComplexity sorter_times[] = {
 	LOG,
 	LOG,
 	LOG,
 	ALOG,
+	SQR,
+	LIN,
 	LOG,
 	LOG,
 	LOG,
 	LOG,
-	SQR
 };
 static const int n_sorters = sizeof(sorters) / sizeof(*sorters);
 

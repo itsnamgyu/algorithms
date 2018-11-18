@@ -2,6 +2,9 @@
 #include <vector>
 #include "data.hpp"
 
+extern int BUCKET_EXP;
+
+
 typedef void (*sort_func)(int *array, int begin, int end);
 
 bool validate_sort(sort_func sorter, bool verbose=false, int iterations=2000);
