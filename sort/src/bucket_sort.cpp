@@ -15,7 +15,7 @@ void bucket_sort(int *array, int begin, int end) {
 
 	auto *buckets0 = new std::vector<unsigned int>[bucket_size];
 	auto *buckets1 = new std::vector<unsigned int>[bucket_size];
-	for (int i = 0; i < bucket_size; ++i) {
+	for (unsigned int i = 0; i < bucket_size; ++i) {
 		buckets0[i] = std::vector<unsigned int>();
 		buckets1[i] = std::vector<unsigned int>();
 		buckets0[i].reserve((end - begin) / bucket_size);
@@ -37,7 +37,7 @@ void bucket_sort(int *array, int begin, int end) {
 			dst = buckets1;
 		} else {
 			unsigned int shifted_mask = mask << shift;
-			for (int i = 0; i < bucket_size; ++i) {
+			for (unsigned int i = 0; i < bucket_size; ++i) {
 				for (auto const& value : src[i])
 					dst[(value & shifted_mask) >> shift].push_back(value);
 				src[i].clear();
@@ -50,7 +50,7 @@ void bucket_sort(int *array, int begin, int end) {
 	}
 
 	int index = begin;
-	for (int i = 0; i < bucket_size; ++i) {
+	for (unsigned int i = 0; i < bucket_size; ++i) {
 		for (auto const& value : src[i])
 			array[index++] = value + INT_MIN;
 	}
