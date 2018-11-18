@@ -4,12 +4,19 @@
 #include <cassert>
 #include <vector>
 
-int BUCKET_EXP = 4;  // size = 2^exp;
+int BUCKET_EXP = 8;  // size = 2^exp;
 
 
 static int get_max(int *array, int begin, int end);
 
 void bucket_sort(int *array, int begin, int end) {
+#ifndef TEST
+	if ((long long) end - begin < 2048) {
+		insertion_sort(array, begin, end);
+		return;
+	}
+#endif
+
 	unsigned int max = get_max(array, begin, end) - INT_MIN;
 	unsigned int bucket_size = 1 << BUCKET_EXP;
 
@@ -18,8 +25,6 @@ void bucket_sort(int *array, int begin, int end) {
 	for (unsigned int i = 0; i < bucket_size; ++i) {
 		buckets0[i] = std::vector<unsigned int>();
 		buckets1[i] = std::vector<unsigned int>();
-		buckets0[i].reserve((end - begin) / bucket_size);
-		buckets1[i].reserve((end - begin) / bucket_size);
 	}
 
 	std::vector<unsigned int> *src = NULL;
@@ -27,15 +32,20 @@ void bucket_sort(int *array, int begin, int end) {
 
 	unsigned int mask = (1 << BUCKET_EXP) - 1;
 
-	for (unsigned int shift = 0; shift < 32 && (shift == 0 || max >> shift); shift += BUCKET_EXP) {
-		if (shift == 0) {
+	src = buckets0;
+	for (unsigned int shift = 0; true; shift += BUCKET_EXP) {
+		unsigned int next_shift = shift + BUCKET_EXP;
+		bool first = (shift == 0);
+		bool last = next_shift > 32 || (max >> next_shift) == 0;
+
+		if (first) {
 			for (int i = begin; i <= end; ++i) {
 				unsigned int value = array[i] - INT_MIN;
 				buckets0[value & mask].push_back(value);
 			}
 			src = buckets0;
 			dst = buckets1;
-		} else {
+		} else if (!last) {
 			unsigned int shifted_mask = mask << shift;
 			for (unsigned int i = 0; i < bucket_size; ++i) {
 				for (auto const& value : src[i])
@@ -47,12 +57,14 @@ void bucket_sort(int *array, int begin, int end) {
 			src = dst;
 			dst = tmp;
 		}
-	}
 
-	int index = begin;
-	for (unsigned int i = 0; i < bucket_size; ++i) {
-		for (auto const& value : src[i])
-			array[index++] = value + INT_MIN;
+		if (last) {
+			int index = begin;
+			for (unsigned int i = 0; i < bucket_size; ++i)
+				for (auto const& value : src[i])
+					array[index++] = value + INT_MIN;
+			break;
+		}
 	}
 	
 	delete[] buckets0;
