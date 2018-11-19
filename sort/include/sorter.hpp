@@ -16,7 +16,6 @@ void merge_sort(int *array, int begin, int end);
 void heap_sort(int *array, int begin, int end);
 void quick_sort(int *array, int begin, int end);
 void bucket_sort(int *array, int begin, int end);
-void pure_hard_sort(int *array, int begin, int end);
 
 void median_qs(int *array, int begin, int end);
 void random_qs(int *array, int begin, int end);

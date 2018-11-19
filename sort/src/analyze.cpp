@@ -1,6 +1,5 @@
 #include "../include/sorter.hpp"
 #include "../include/data.hpp"
-#include "../include/hardsort.hpp"
 #include <stdexcept>
 #include <cstdlib>
 #include <cstdio>
@@ -71,7 +70,6 @@ static sort_func main_sorters[] = {
 	median_qs,
 	insertion_sort,
 	bucket_sort,
-	pure_hard_sort
 };
 static char main_sorter_names[][100] {
 	"std_sort",
@@ -81,7 +79,6 @@ static char main_sorter_names[][100] {
 	"median_qs",
 	"insertion_sort",
 	"bucket_sort",
-	"pure_hard_sort"
 };
 static const int n_main_sorters = sizeof(main_sorters) / sizeof(*main_sorters);
 
@@ -129,7 +126,7 @@ int main(int arg_count, char **args) {
 }
 
 static void analyze_low() {
-	int max = HARDSORT_MAX;
+	int max = 128;
 	
 	FILE *f_random = fopen("random_low.csv", "w");
 	FILE *f_reverse = fopen("reverse_low.csv", "w");
