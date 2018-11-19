@@ -43,6 +43,7 @@ test:
 	@rm -f test_exec
 
 clean:
+	rm -r $(TARGET)
 	rm -rf obj
 	rm -f test_data.txt
 	rm -f input.txt
