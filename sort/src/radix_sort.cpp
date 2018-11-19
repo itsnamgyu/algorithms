@@ -9,7 +9,7 @@ int BUCKET_EXP = 8;  // size = 2^exp;
 
 static int get_max(int *array, int begin, int end);
 
-void bucket_sort(int *array, int begin, int end) {
+void radix_sort(int *array, int begin, int end) {
 #ifndef TEST
 	if ((long long) end - begin < 2048) {
 		insertion_sort(array, begin, end);
@@ -87,7 +87,7 @@ static int get_max(int *array, int begin, int end) {
 #include "insertion_sort.cpp"
 #include "heap_sort.cpp"
 int main() {
-	assert(validate_sort(bucket_sort, true));
+	assert(validate_sort(radix_sort, true));
 	return 0;
 }
 #endif

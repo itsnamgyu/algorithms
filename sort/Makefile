@@ -8,9 +8,9 @@ HARDSORT_MAX = 32
 SRC_DIR = src
 OBJ_DIR = obj
 
-SRC = main.cpp data.cpp sort.cpp insertion_sort.cpp merge_sort.cpp quick_sort.cpp heap_sort.cpp bucket_sort.cpp
-ANALYSIS_SRC = analyze.cpp data.cpp sort.cpp insertion_sort.cpp merge_sort.cpp quick_sort.cpp heap_sort.cpp bucket_sort.cpp
-TEST_SRC = data.cpp sort.cpp insertion_sort.cpp merge_sort.cpp quick_sort.cpp heap_sort.cpp bucket_sort.cpp
+SRC = main.cpp data.cpp sort.cpp insertion_sort.cpp merge_sort.cpp quick_sort.cpp heap_sort.cpp radix_sort.cpp
+ANALYSIS_SRC = analyze.cpp data.cpp sort.cpp insertion_sort.cpp merge_sort.cpp quick_sort.cpp heap_sort.cpp radix_sort.cpp
+TEST_SRC = data.cpp sort.cpp insertion_sort.cpp merge_sort.cpp quick_sort.cpp heap_sort.cpp radix_sort.cpp
 
 _SRC = $(patsubst %.cpp, $(SRC_DIR)/%.cpp, $(SRC))
 _TEST_SRC = $(patsubst %.cpp, $(SRC_DIR)/%.cpp, $(TEST_SRC))

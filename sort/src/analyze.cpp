@@ -22,7 +22,7 @@ static sort_func sorters[] = {
 	heap_sort,
 	quick_sort,
 	insertion_sort,
-	bucket_sort,
+	radix_sort,
 
 	median_qs,
 	random_qs,
@@ -41,7 +41,7 @@ static char sorter_names[][100] {
 	"heap_sort",
 	"quick_sort",
 	"insertion_sort",
-	"bucket_sort",
+	"radix_sort",
 
 	"median_qs",
 	"random_qs",
@@ -69,7 +69,7 @@ static sort_func main_sorters[] = {
 	quick_sort,
 	median_qs,
 	insertion_sort,
-	bucket_sort,
+	radix_sort,
 };
 static char main_sorter_names[][100] {
 	"std_sort",
@@ -78,7 +78,7 @@ static char main_sorter_names[][100] {
 	"quick_sort",
 	"median_qs",
 	"insertion_sort",
-	"bucket_sort",
+	"radix_sort",
 };
 static const int n_main_sorters = sizeof(main_sorters) / sizeof(*main_sorters);
 
