@@ -9,8 +9,7 @@ static sort_func sorters[5] = {
 	insertion_sort,
 	merge_sort,
 	quick_sort,
-	//ho_sort,
-	NULL,
+	bucket_sort,
 };
 
 static void print_usage();
