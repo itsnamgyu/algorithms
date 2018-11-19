@@ -10,7 +10,7 @@ static float MEAN_SHIFT_FACTOR = 0.25f;
 static float INV_MEAN_SHIFT_FACTOR = 1.0f - MEAN_SHIFT_FACTOR;
 
 static unsigned int stop_size = 0;
-static unsigned int EARLY_STOP_SIZE = 32;
+static unsigned int EARLY_STOP_SIZE = 23;
 
 /*
  * uses end as pivot element
