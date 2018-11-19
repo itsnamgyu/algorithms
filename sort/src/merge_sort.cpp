@@ -20,6 +20,7 @@ static void merge(int *array, int begin, int mid, int end) {
 	int count = end - begin + 1;
 	int *copy = new int[count];
 
+	// merge sublists
 	int i = 0;
 	int a = begin;
 	int b = mid + 1;
@@ -30,6 +31,7 @@ static void merge(int *array, int begin, int mid, int end) {
 			copy[i++] = array[b++];
 	}
 
+	// copy from temp list and delete old
 	memcpy(array + begin, copy, count * sizeof(int));
 	delete[] copy;
 }

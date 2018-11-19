@@ -22,6 +22,7 @@ int main(int argument_count, char **arguments) {
 		return -1;
 	}
 
+	// load data
 	Data data;
 	try {
 		data = Data::load(arguments[1]);
@@ -30,19 +31,23 @@ int main(int argument_count, char **arguments) {
 		return -1;
 	}
 
+	// get algo index
 	int algo_index;
 	if (sscanf(arguments[2], "%d", &algo_index) != 1) {
 		print_usage();
 		return -1;
 	}
 
+	// validate algo index
 	if (algo_index < 1 || 4 < algo_index) {
 		print_invalid_algo_index();
 		return -1;
 	}
 
+	// sort w/ time measurement
 	double time = data.sort(sorters[algo_index]);
 	
+	// write result
 	char out_filename[1000];
 	sprintf(out_filename, "result_%d_%s", algo_index, arguments[1]);
 

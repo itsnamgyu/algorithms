@@ -20,6 +20,7 @@ void radix_sort(int *array, int begin, int end) {
 	unsigned int max = get_max(array, begin, end) - INT_MIN;
 	unsigned int bucket_size = 1 << BUCKET_EXP;
 
+	// initialize buckets
 	auto *buckets0 = new std::vector<unsigned int>[bucket_size];
 	auto *buckets1 = new std::vector<unsigned int>[bucket_size];
 	for (unsigned int i = 0; i < bucket_size; ++i) {
@@ -27,6 +28,7 @@ void radix_sort(int *array, int begin, int end) {
 		buckets1[i] = std::vector<unsigned int>();
 	}
 
+	// pointer variables for cycling buckets
 	std::vector<unsigned int> *src = NULL;
 	std::vector<unsigned int> *dst = NULL;
 
@@ -39,6 +41,7 @@ void radix_sort(int *array, int begin, int end) {
 		bool last = next_shift > 32 || (max >> next_shift) == 0;
 
 		if (first) {
+			// initially move to bucket (convert to unsigned int)
 			for (int i = begin; i <= end; ++i) {
 				unsigned int value = array[i] - INT_MIN;
 				buckets0[value & mask].push_back(value);
@@ -46,6 +49,7 @@ void radix_sort(int *array, int begin, int end) {
 			src = buckets0;
 			dst = buckets1;
 		} else if (!last) {
+			// move to next set of buckets
 			unsigned int shifted_mask = mask << shift;
 			for (unsigned int i = 0; i < bucket_size; ++i) {
 				for (auto const& value : src[i])
@@ -59,6 +63,7 @@ void radix_sort(int *array, int begin, int end) {
 		}
 
 		if (last) {
+			// move back to original array (convert back to signed int)
 			int index = begin;
 			for (unsigned int i = 0; i < bucket_size; ++i)
 				for (auto const& value : src[i])

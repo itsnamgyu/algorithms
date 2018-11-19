@@ -8,6 +8,12 @@
 #include <string>
 
 
+/*
+ * Module for running time analysis. There are multiple modes of executions,
+ * each of which output analysis results to corresponding csv files.
+ */
+
+// thorough analysis
 static bool DEEP = false;
 
 enum TimeComplexity {
