@@ -1,5 +1,8 @@
+#pragma once
+
 #include <utility>
 #include "data.hpp"
+
 
 class PrefixTree {
 	public:
@@ -41,7 +44,8 @@ class PrefixTree {
 		 * using within public member `symbol`.
 		 */
 		int symbol_size;
-}
+};
+
 
 class Symbol {
 	public:
@@ -55,7 +59,8 @@ class Symbol {
 		 * string anyways.
 		 */
 		const uint symbol;
-}
+};
+
 
 class CodeBook {
 	public:
@@ -92,4 +97,4 @@ class CodeBook {
 
 	private:
 		std::vector<Symbol> symbols;
-}
+};

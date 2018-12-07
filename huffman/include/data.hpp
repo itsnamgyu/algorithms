@@ -1,3 +1,5 @@
+#pragma once
+
 #include <cstdio>
 #include <cstdlib>
 #include <vector>
@@ -5,6 +7,7 @@
 
 typedef unsigned int uint;
 typedef unsigned char uchar;
+
 
 class Data {
 	public:
@@ -35,7 +38,8 @@ class Data {
 		 * not be used. We need to keep track of this.
 		 */
 		int unused_tail_bits;
-}
+};
+
 
 class BitSequence {
 	public:
@@ -64,4 +68,4 @@ class BitSequence {
 		 * and allow for array-like access.
 		 */
 		std::vector<uchar> data;
-}
+};
