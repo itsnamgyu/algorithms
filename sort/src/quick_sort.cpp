@@ -17,6 +17,9 @@ static unsigned int EARLY_STOP_SIZE = 23;
  */
 static int pivot_and_get_index(int *array, int begin, int end);
 
+/*
+ * uses given value for pivot value (not element)
+ */
 static int pivot_and_get_index_by_value(int *array, int begin, int end, int pivot);
 
 static inline void swap(int *array, int a, int b);
@@ -44,11 +47,14 @@ static void _shifted_mean_qs(int *array, int begin, int end, int min, int max) {
 		return;
 	}
 
+	// get MED_3 and QMED
 	int median = array[get_median(array, begin, (begin + end) / 2, end)];
 	int mean = ((float) min + (float) max) / 2 * INV_MEAN_SHIFT_FACTOR + (float) median * MEAN_SHIFT_FACTOR;
 
+	// pivot
 	int mid_right = pivot_and_get_index_by_value(array, begin, end, mean);
 
+	// recalculate QMED on extreme deviation
 	if (mid_right == begin || mid_right == end + 1) {
 		shifted_mean_qs(array, begin, end);
 		return;
