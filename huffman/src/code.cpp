@@ -1,7 +1,7 @@
 #include "../include/code.hpp"
 
 
-PrefixTree PrefixTree::from_content(Data &data, int symbol_size) {
+PrefixTree PrefixTree::from_content(ByteString &string, int symbol_size) {
     return PrefixTree();
 }
 
@@ -44,7 +44,7 @@ BitSequence CodeBook::to_counted_length_symbol_list() {
     return BitSequence();
 }
 
-BitSequence CodeBook::encode(Data &data) {
+BitSequence CodeBook::encode(ByteString &string) {
     return BitSequence();
 }
 
