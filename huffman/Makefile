@@ -10,7 +10,7 @@ SRC_DIR = src
 OBJ_DIR = obj
 
 #SRC = main.cpp data.cpp
-SRC = 
+SRC = main.cpp code.cpp data.cpp
 
 _SRC = $(patsubst %.cpp, $(SRC_DIR)/%.cpp, $(SRC))
 _OBJ = $(patsubst %.cpp, $(OBJ_DIR)/%.o, $(SRC))
