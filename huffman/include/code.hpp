@@ -67,7 +67,7 @@ class CodeBook {
 		/*
 		 * Create a code book based on a valid prefix tree.
 		 */
-		CodeBook(PrefixTree *tree);
+		explicit CodeBook(PrefixTree *tree);
 
 		/*
 		 * Convert to valid prefix tree with canonical Huffman Code.
