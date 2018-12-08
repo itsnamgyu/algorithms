@@ -97,4 +97,4 @@ class CodeBook {
 
 	private:
 		std::vector<Symbol> symbols;
-}
+};
