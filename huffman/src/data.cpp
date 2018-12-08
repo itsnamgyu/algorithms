@@ -46,21 +46,23 @@ ByteString BitSequence::compile() const {
 		tail_bits = 0;
 	} else {
 		bytes = size / 8 + 1;
-		tail_bits = size % 8;
+		tail_bits = 8 - size % 8;
 	}
 
-	auto string= ByteString(std::vector<uchar>(0, bytes));
+	assert(tail_bits < 8);
+
+	auto string = ByteString(std::vector<uchar>(bytes, 0));
 	string.tail_bits = tail_bits;
 
 	uchar *current = &string.data[0];
 
 	for (size_t i = 0; i < size; ++i) {
-		*current <<= 1;
+		*current = *current << 1;
 		*current += data[i] ? 1 : 0;
-		if (i % 8 == 7) *current += 1;
+		if (i % 8 == 7) current += 1;
 	}
 
-	*current <<= tail_bits;
+	*current = *current << tail_bits;
 
 	return string;
 }
