@@ -9,29 +9,29 @@ typedef unsigned int uint;
 typedef unsigned char uchar;
 
 
-class Data {
+class ByteString {
 	public:
 		/*
 		 * Basic constructors and destructors
 		 */
-		Data();
-		Data(const uchar *data, int n);
-		Data(const std::vector<uchar> data);
-		~Data();
+		ByteString();
+		ByteString(const uchar *data, int n);
+		ByteString(const std::vector<uchar> data);
+		~ByteString();
 
 		/*
 		 * Read n bytes from the specified stream. If n is set to
 		 * -1, read until the end fo the file. MUST BE BINARY STREAM.
 		 */
-		static Data from_stream(FILE *stream, int n=-1);
+		static ByteString from_stream(FILE *stream, int n=-1);
 
 		/*
 		 * Basic comparison functions for testing etc.
 		 */
-		bool operator==(const Data& other) const;
+		bool operator==(const ByteString& other) const;
 
 		// private:  // maybe in a perfect world
-		std::vector<uchar> _data;
+		std::vector<uchar> data;
 
 		/*
 		 * For our compressed files, we will be dealing with individual bits.
@@ -52,9 +52,9 @@ class BitSequence {
 
 		/*
 		 * Pack the individual bits in the BitSequence into a string of
-		 * unsigned chars (wrapped in a Data object).
+		 * unsigned chars (wrapped in a ByteString object).
 		 */
-		Data compile() const;
+		ByteString compile() const;
 
 		int get_length();
 
@@ -69,5 +69,5 @@ class BitSequence {
 		 * Vector of bits. Declared as uchar vector to avoid optimization
 		 * and allow for array-like access.
 		 */
-		std::vector<uchar> _data;
+		std::vector<uchar> data;
 };

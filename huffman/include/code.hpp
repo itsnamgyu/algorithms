@@ -11,7 +11,7 @@ class PrefixTree {
 		 * some data. The original data should be in complete bytes (like
 		 * ordinary files).
 		 */
-		static PrefixTree from_content(Data &data, int symbol_size);
+		static PrefixTree from_content(ByteString &string, int symbol_size);
 
 		/*
 		 * Should recursively destroy children; there's no other
@@ -91,10 +91,10 @@ class CodeBook {
 		/*
 		 * Encode data according to canonical Huffman code.
 		 */
-		BitSequence encode(Data &data);
+		BitSequence encode(ByteString &string);
 
 		bool operator==(const CodeBook& other) const;
 
 	private:
 		std::vector<Symbol> symbols;
-};
+}
