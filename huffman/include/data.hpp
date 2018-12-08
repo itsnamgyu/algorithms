@@ -62,6 +62,7 @@ class BitSequence {
 		uchar* get_data();  // public access for easy modification
 
 		bool operator==(const BitSequence& other) const;
+
 	private:
 		/*
 		 * Vector of bits. Declared as uchar vector to avoid optimization
