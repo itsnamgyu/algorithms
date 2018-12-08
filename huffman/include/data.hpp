@@ -31,14 +31,14 @@ class Data {
 		bool operator==(const Data& other) const;
 
 		// private:  // maybe in a perfect world
-		std::vector<uchar> data;
+		std::vector<uchar> _data;
 
 		/*
 		 * For our compressed files, we will be dealing with individual bits.
 		 * Hence, the last few bits of the last byte written to the file may
 		 * not be used. We need to keep track of this.
 		 */
-		int unused_tail_bits;
+		int tail_bits;
 };
 
 
@@ -69,5 +69,5 @@ class BitSequence {
 		 * Vector of bits. Declared as uchar vector to avoid optimization
 		 * and allow for array-like access.
 		 */
-		std::vector<uchar> data;
+		std::vector<uchar> _data;
 };
