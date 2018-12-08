@@ -16,11 +16,12 @@ class Data {
 		 */
 		Data();
 		Data(const uchar *data, int n);
+		Data(const std::vector<uchar> data);
 		~Data();
 
 		/*
 		 * Read n bytes from the specified stream. If n is set to
-		 * -1, read until the end fo the file.
+		 * -1, read until the end fo the file. MUST BE BINARY STREAM.
 		 */
 		static Data from_stream(FILE *stream, int n=-1);
 
