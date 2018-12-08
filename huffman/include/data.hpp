@@ -56,7 +56,7 @@ class BitSequence {
 		 */
 		ByteString compile() const;
 
-		int get_length();
+		int get_length() const;
 
 		void append(const BitSequence& tail);
 
