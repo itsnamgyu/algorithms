@@ -1,43 +1,70 @@
 #include "../include/data.hpp"
 
 
-Data::Data() = default;
+ByteString::ByteString() = default;
 
-Data::~Data() = default;
+ByteString::~ByteString() = default;
 
-Data::Data(const uchar *data, int n) :
+ByteString::ByteString(const uchar *data, int n) :
 	data(data, data + n)
 {}
 
-Data::Data(const std::vector<uchar> data) :
+ByteString::ByteString(const std::vector<uchar> data) :
 	data(data)
 {}
 
-Data Data::from_stream(FILE *stream, int n) {
+ByteString ByteString::from_stream(FILE *stream, int n) {
 	std::vector<uchar> data(n);
 	fread(&data[0], 1, n, stream);
 
-    return Data(data);
+    return ByteString(data);
 }
 
-bool Data::operator==(const Data &other) const {
-	return data.data == other.data;
+bool ByteString::operator==(const ByteString &other) const {
+	return data == other.data;
 }
 
 BitSequence::BitSequence() = default;
 
 BitSequence::~BitSequence() = default;
 
-Data BitSequence::compile() const {
-    return Data();
+ByteString BitSequence::compile() const {
+	size_t size = get_length();
+	size_t bytes;
+	size_t tail_bits;
+	
+	if (size % 8 == 0) {
+		bytes = size / 8;
+		tail_bits = 0;
+	} else {
+		bytes = size / 8 + 1;
+		tail_bits = size % 8;
+	}
+
+	auto string= ByteString(std::vector<uchar>(0, bytes));
+	string.tail_bits = tail_bits;
+
+	uchar *current = &string.data[0];
+
+	for (size_t i = 0; i < size; ++i) {
+		*current <<= 1;
+		*current += data[i] ? 1 : 0;
+		if (i % 8 == 7) *current += 1;
+	}
+
+	*current <<= tail_bits;
+
+	return string;
 }
 
-int BitSequence::get_length() {
+int BitSequence::get_length() const {
     return data.size();
 }
 
 void BitSequence::append(const BitSequence &tail) {
-	data.insert(data.end(), tail.data.begin(), tail.data.end());
+	data.insert(data.end(),
+				tail.data.begin(),
+				tail.data.end());
 }
 
 uchar *BitSequence::get_data() {
