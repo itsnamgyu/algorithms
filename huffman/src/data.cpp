@@ -1,4 +1,5 @@
 #include "../include/data.hpp"
+#include <cassert>
 
 
 ByteString::ByteString() = default;
@@ -27,6 +28,13 @@ bool ByteString::operator==(const ByteString &other) const {
 BitSequence::BitSequence() = default;
 
 BitSequence::~BitSequence() = default;
+
+BitSequence::BitSequence(uint data, size_t n) :
+	data() {
+	assert(0 <= n && n <= 32);
+	for (int i = n - 1; i >= 0; --i)
+		this->data.push_back((uchar) ((data >> i) & 1));
+}
 
 ByteString BitSequence::compile() const {
 	size_t size = get_length();

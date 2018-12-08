@@ -44,11 +44,14 @@ class ByteString {
 
 class BitSequence {
 	public:
-		/*
-		 * Basic constructors and destructors
-		 */
 		BitSequence();
 		~BitSequence();
+
+		/*
+		 * Generate BitSequence from n LSB's (NOT MSB) from an unsigned
+		 * int.
+		 */
+		BitSequence(uint data, size_t n);
 
 		/*
 		 * Pack the individual bits in the BitSequence into a string of
@@ -64,7 +67,7 @@ class BitSequence {
 
 		bool operator==(const BitSequence& other) const;
 
-	private:
+	// private:  // maybe in a perfect world
 		/*
 		 * Vector of bits. Declared as uchar vector to avoid optimization
 		 * and allow for array-like access.
