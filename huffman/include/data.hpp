@@ -69,9 +69,13 @@ class BitSequence {
 
 		void append(const BitSequence& tail);
 
+		void append(uchar bit);
+
 		uchar* get_data();  // public access for easy modification
 
 		bool operator==(const BitSequence& other) const;
+
+		uchar& operator[](const int index);
 
 	// private:  // maybe in a perfect world
 		/*

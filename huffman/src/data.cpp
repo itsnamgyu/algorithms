@@ -89,10 +89,18 @@ void BitSequence::append(const BitSequence &tail) {
 				tail.data.end());
 }
 
+void BitSequence::append(uchar bit) {
+	data.push_back(bit);
+}
+
 uchar *BitSequence::get_data() {
     return &data[0];
 }
 
 bool BitSequence::operator==(const BitSequence &other) const {
     return data == other.data;
+}
+
+uchar &BitSequence::operator[](const int index) {
+	return data[index];
 }
