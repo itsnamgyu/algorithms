@@ -23,13 +23,13 @@ TEST_CASE( "data.hpp", "[tag]" ) {
 		REQUIRE( bits5.data[1] == 1 );
 		REQUIRE( bits5.data[2] == 0 );
 		REQUIRE( bits5.data[3] == 1 );
-		REQUIRE( bits5.get_length() == 4 );
+		REQUIRE( bits5.size() == 4 );
 
 		REQUIRE( bits3.data[0] == 0 );
 		REQUIRE( bits3.data[1] == 0 );
 		REQUIRE( bits3.data[2] == 1 );
 		REQUIRE( bits3.data[3] == 1 );
-		REQUIRE( bits3.get_length() == 4 );
+		REQUIRE( bits3.size() == 4 );
 	}
 
 	bits5.append(bits3);

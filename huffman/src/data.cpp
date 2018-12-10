@@ -36,8 +36,20 @@ BitSequence::BitSequence(uint data, size_t n) :
 		this->data.push_back((uchar) ((data >> i) & 1));
 }
 
+BitSequence::BitSequence(ByteString string) :
+	data() {
+	// add all bits from all bytes
+	for (const auto &byte : string.data)
+		for (int i = 7; i >= 0; --i)
+			data.push_back((byte >> i) & 1);
+
+	// remove unused tail bits from last byte
+	for (int i = 0; i < string.tail_bits; ++i)
+		data.pop_back();
+}
+
 ByteString BitSequence::compile() const {
-	size_t size = get_length();
+	size_t size = data.size();  // ignore method size()
 	size_t bytes;
 	size_t tail_bits;
 	
@@ -67,7 +79,7 @@ ByteString BitSequence::compile() const {
 	return string;
 }
 
-int BitSequence::get_length() const {
+int BitSequence::size() const {
     return data.size();
 }
 

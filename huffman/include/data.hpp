@@ -54,12 +54,18 @@ class BitSequence {
 		BitSequence(uint data, size_t n);
 
 		/*
+		 * Generate BitSequence from ByteString.
+		 * TODO: add unit test
+		 */
+		BitSequence(ByteString string);
+
+		/*
 		 * Pack the individual bits in the BitSequence into a string of
 		 * unsigned chars (wrapped in a ByteString object).
 		 */
 		ByteString compile() const;
 
-		int get_length() const;
+		int size() const;
 
 		void append(const BitSequence& tail);
 
