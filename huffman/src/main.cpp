@@ -14,7 +14,6 @@ void decompress(FILE *in, FILE *out);
 void analyze(FILE *in);
 
 int main(int arg_count, char **args) {
-
 	if (arg_count != 3) {
 		print_usage();
 		return 0;
@@ -50,59 +49,6 @@ int main(int arg_count, char **args) {
 		printf("couldn't open input file %s\n", filename);
 		exit(-1);
 	}
-
-	auto bits = BitSequence(in);
-	bits.print();
-	auto rebits = BitSequence(bits.compile());
-	assert(bits == rebits);
-	BitSequence(in).print();
-
-	auto *tree = PrefixTree::from_content(bits, 16);
-	auto book = CodeBook(tree);
-	auto *canon_tree = book.to_canonical_prefix_tree();
-	auto canon_book= CodeBook(canon_tree);
-	assert(book == canon_book);
-
-	{
-		auto bits = book.to_code_length_list();
-		auto new_book = book.from_code_length_list(
-				bits, book.get_length_size());
-
-		printf("Code Length List Size:             %d\n", bits.size());
-
-		assert(book == new_book);
-	}
-
-	{
-		auto bits = book.to_counted_length_symbol_list();
-		auto new_book = book.from_counted_length_symbol_list(
-				bits, book.get_symbol_size(), book.get_count_size(),
-				book.get_max_code_length());
-
-		printf("Counted Length Symbol List Size:   %d\n", bits.size());
-
-		assert(book == new_book);
-	}
-
-	auto encoded = book.encode(bits);
-	auto decoded = canon_tree->decode(encoded);
-	printf("----------Table----------\n");
-	//book.print_code_table();
-	
-	printf("Original Size:  %d\n", bits.size());
-	printf("Encoded:        %d\n", encoded.size());
-
-	printf("Original\n");
-	//bits.print();
-	printf("Encoded\n");
-	//encoded.print();
-	printf("Decoded\n");
-	//decoded.print();
-
-
-
-	assert(bits == decoded);
-
 
 	// open output file if needed
 	if (mode == C || mode == D) {
@@ -143,4 +89,47 @@ void decompress(FILE *in, FILE *out) {
 }
 
 void analyze(FILE *in) {
+	char CSV[] = "analysis.csv";
+	FILE *csv = fopen(CSV, "W");
+	if (csv == NULL) {
+		printf("couldn't open analsis output file [%s]\n", CSV);
+		return 0;
+	}
+
+	auto input_bits = BitSequence(in);
+
+	fprintf(csv, "Symbol Size,Compressed,Table 1 (Length List),");
+	fprintf(csv, "Table 2 (Symbol List),Total\n");
+
+	for (int i = 4; i <= 24; ++i) {
+		auto *tree = PrefixTree::from_content(bits, 24);
+		auto book = CodeBook(tree);
+		auto encoded = book.encode(input_bits);
+		auto table0 = book.to_code_length_list();
+		auto table1 = book.to_counted_length_symbol_list();
+		int size0 = table0.size();
+		int size1 = table1.size();
+
+		free(tree)
+
+		printf("%-4d", i);
+		fprintf(csv, "%d,", i);
+
+		printf("%-10d", encoded.size());
+		fprintf(csv, "%d,", encoded.size());
+
+		printf("%-10d", size0);
+		fprintf(csv, "%d,", size0);
+
+		printf("%-10d", size1);
+		fprintf(csv, "%d,", size1);
+
+		int size = size0 < size1 ? size0 : size1;
+
+		printf("%-10d", encoded.size() + size);
+		fprintf(csv, "%d,", encoded.size() + size);
+
+		printf("\n");
+		fprintf(csv, "\n");
+	}
 }

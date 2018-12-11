@@ -12,7 +12,7 @@ OBJ_DIR = obj
 
 SRC_MAIN = main.cpp  # in SRC
 SRC_REQ = code.cpp data.cpp  # in SRC
-SRC_TEST = catch.cpp data.cpp  # in TEST
+SRC_TEST = catch.cpp data.cpp code.cpp # in TEST
 
 _SRC_MAIN = $(patsubst %.cpp, $(SRC_DIR)/%.cpp, $(SRC_MAIN))
 _SRC_REQ = $(patsubst %.cpp, $(SRC_DIR)/%.cpp, $(SRC_REQ))

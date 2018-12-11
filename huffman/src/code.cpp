@@ -68,13 +68,19 @@ PrefixTree *PrefixTree::from_content(BitSequence &bits, int symbol_size) {
 
 	// get BitSequence from string with redundant 0 bits such that
 	// total size if multiple of `symbol_size`.
-	while (bits.size() % symbol_size != 0)
+	int appended = 0;
+	while (bits.size() % symbol_size != 0) {
 		bits.append(0);
+		appended++;
+	}
 
 	// count symbols
 	std::vector<uint> symbols = bits.to_primitives(symbol_size);
 	for (const auto &symbol : symbols)
 		frequencies[symbol] += 1;
+
+	// remove alignment bits
+	while (appended--) bits.data.pop_back();
 
 	// initialize pqueue with single-node trees
 	std::priority_queue<PrefixTree*, std::vector<PrefixTree*>, compare> trees;
@@ -82,6 +88,14 @@ PrefixTree *PrefixTree::from_content(BitSequence &bits, int symbol_size) {
 		if (frequencies[i])
 			trees.push(new PrefixTree(BitSequence(i, symbol_size),
 						frequencies[i]));
+
+	if (trees.size() == 1) {
+		// single symbol codes don't work
+		// hotfix w/ a null symbol
+		uint symbol = trees.top()->symbol.to_primitive();
+		symbol = symbol ^ 1;
+		trees.push(new PrefixTree(BitSequence(symbol, symbol_size), 1));
+	}
 
 	/*
 	while (!trees.empty()) {
@@ -355,8 +369,11 @@ BitSequence CodeBook::encode(BitSequence &bits) const {
 
 	// append empty bits for symbol size alignment
 	int symbol_size = get_symbol_size();
-	while (bits.size() % symbol_size != 0)
+	int appended = 0;
+	while (bits.size() % symbol_size != 0) {
 		bits.append(0);
+		appended++;
+	}
 
 	// encode data
 	BitSequence encoded;
@@ -368,6 +385,10 @@ BitSequence CodeBook::encode(BitSequence &bits) const {
 		assert(!(code_table[symbol] == empty));
 		encoded.append(code_table[symbol]);
 	}
+
+	// unalign original data
+	while (appended--)
+		bits.data.pop_back();
 
     return encoded;
 }
