@@ -1,6 +1,7 @@
 #include "catch.hpp"
 #include "../include/data.hpp"
 #include "../include/code.hpp"
+#include <cstdlib>
 
 TEST_CASE( "data.hpp", "[tag]" ) {
 	std::vector<uchar> data;
@@ -53,4 +54,25 @@ TEST_CASE( "data.hpp", "[tag]" ) {
 		REQUIRE( compiled17.data.size() == 2 );
 		REQUIRE( compiled17.tail_bits == 7 );
 	}
+
+	SECTION( "read & write BitSequence" ) {
+		for (int r = 0; r < 32; ++r) {
+			auto bits = BitSequence();
+			for (int i = 0; i < r; i++)
+				bits.append(rand() % 2);
+			FILE *f = fopen(".test_output", "wb");
+			bits.write(f);
+			fclose(f);
+			f = fopen(".test_output", "rb");
+
+			auto loaded = BitSequence(f);
+			while (loaded.size() != bits.size())
+				loaded.data.pop_back();
+
+			REQUIRE( bits == loaded );
+		}
+
+
+	}
+
 }

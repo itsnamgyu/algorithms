@@ -64,13 +64,20 @@ class BitSequence {
 		 * Read n BYTES from the specified stream.
 		 */
 		BitSequence(FILE *stream, size_t n=-1);
-
+		
 		/*
 		 * Generate BitSequence from list of primitives
 		 * - size: number of LSBs to use (8 == char, 16 == short, etc)
 		 * TODO: add unit test
 		 */
 		BitSequence(std::vector<uint> primitives, int size);
+
+		/*
+		 * Write contents to file stream. Note that 0-valued tail bits will
+		 * be appended to the data to align to bytes. You are required to
+		 * encode/decode the number of tail bits in the internal data.
+		 */
+		void write(FILE *stream);
 
 		/*
 		 * Pack the individual bits in the BitSequence into a string of

@@ -63,6 +63,26 @@ BitSequence::BitSequence(std::vector<uint> primitives, int size) :
 		append(BitSequence(p, size));
 }
 
+void BitSequence::write(FILE *stream) {
+	// append tail bits (to align to bytes)
+	int appended = 0;
+	while (data.size() % 8 != 0) {
+		data.push_back(0);
+		appended++;
+	}
+
+	auto bytes = to_primitives(8);
+	uchar *packed_bytes = new uchar[bytes.size()];
+	for (int i = 0; i < bytes.size(); ++i)
+		packed_bytes[i] = bytes[i];
+	fwrite(packed_bytes, 1, bytes.size(), stream);
+	delete[] packed_bytes;
+
+	// remove tail bits
+	while (appended--) data.pop_back();
+}
+
+
 BitSequence BitSequence::subset(int start, int end) const {
 	BitSequence bits;
 	if (start == -1) start = 0;
