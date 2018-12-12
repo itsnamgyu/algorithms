@@ -131,7 +131,7 @@ void compress(FILE *in, FILE *out) {
 			if (size < min_size) {
 				min_size = size;
 				symbol_size = i;
-				book_format = 0;
+				book_format = 1;
 			}
 			printf("#"); fflush(stdout);
 		}
@@ -201,7 +201,7 @@ void compress(FILE *in, FILE *out) {
 
 		// add additional metdata for symbol list
 		if (book_format == 1)
-			output_bits.append(BitSequence(book.get_max_code_length(), 24));
+			output_bits.append(BitSequence(book.get_max_code_length(), symbol_size));
 
 		output_bits.append(table);	// code book
 		output_bits.append(encoded);  // encoded data
@@ -209,6 +209,9 @@ void compress(FILE *in, FILE *out) {
 		output_bits.write(out);  // save data
 
 		printf("complete!\n");
+		printf("---------------------------------------------------------------\n");
+		printf("Compression Rate: %.2f%%\n",
+				(float) output_bits.size() / input_bits.size() * 100);
 	}
 }
 
@@ -236,14 +239,25 @@ void decompress(FILE *in, FILE *out) {
 			decoded = tree->decode(encoded);
 			free(tree);
 		} else {
-			int max_length = bits.subset(20, 44).to_primitive();
-			//              count_size * max_length + n_symbols * symbol_size
-			int table_size = book_misc * max_length + book_misc * symbol_size;
-			auto table_bits = bits.subset(44, 44 + table_size);
+			int table_start = 20 + symbol_size;
+			int max_length = bits.subset(20, table_start).to_primitive();
+
+			// get symbol_count
+			//              count_size* max_length
+			int left_size = book_misc * max_length;
+			auto left = bits.subset(table_start, table_start + left_size);
+			auto symbol_counts = left.to_primitives(book_misc);
+			int symbol_count = 0;
+			for (const auto &n : symbol_counts)
+				symbol_count += (int) n;
+
+			int right_size = symbol_count * symbol_size;
+			int table_size = left_size + right_size;
+			auto table_bits = bits.subset(table_start, table_start + table_size);
 			auto book = CodeBook::from_counted_length_symbol_list(
 					table_bits, symbol_size, book_misc, max_length);
 			auto *tree = book.to_canonical_prefix_tree();
-			auto encoded = bits.subset(44 + table_size, last_bit);
+			auto encoded = bits.subset(table_start + table_size, last_bit);
 			decoded = tree->decode(encoded);
 			free(tree);
 		}
@@ -302,16 +316,16 @@ void analyze(FILE *in) {
 		}
 
 		auto table1 = book.to_counted_length_symbol_list();
-		int size1 = table1.size();
+		int size1 = table1.size() + book.get_symbol_size();
 		printf("%-10d", size1);
 		fprintf(csv, "%d,", size1);
 
+		// consider metadata size
 		int total_size;
-
 		if (i <= 16) {
-			total_size = encoded.size() + (size0 < size1 ? size0 : size1);
+			total_size = encoded.size() + (size0 < size1 ? size0 : size1) + 20;
 		} else {
-			total_size = encoded.size() + size1;
+			total_size = encoded.size() + size1 + 20;;
 		}
 
 
