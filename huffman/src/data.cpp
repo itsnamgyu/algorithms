@@ -19,7 +19,6 @@ ByteString ByteString::from_stream(FILE *stream, int n) {
 	if (n == -1) {
 		fseek(stream, 0, SEEK_END);
 		n = ftell(stream);
-		printf("file size: %d\n", n);
 		fseek(stream, 0, SEEK_SET);
 	}
 	auto data = std::vector<uchar>(n);
@@ -132,6 +131,7 @@ std::vector<uint> BitSequence::to_primitives(int size) const {
 	for (int head = 0; head < total_size; head += size) {
 		uint primitive = 0;
 		for (size_t i = 0; i < size; ++i) {
+			//printf("%d: %d\n", total_size, head + i);
 			primitive = primitive << 1;
 			// note this->data
 			primitive += this->data[head + i] ? 1 : 0;

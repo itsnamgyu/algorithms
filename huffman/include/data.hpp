@@ -39,7 +39,7 @@ class ByteString {
 		 * Hence, the last few bits of the last byte written to the file may
 		 * not be used. We need to keep track of this.
 		 */
-		int tail_bits;
+		int tail_bits = 0;
 };
 
 

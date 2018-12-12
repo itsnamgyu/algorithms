@@ -4,16 +4,23 @@
 
 
 TEST_CASE( "code.hpp", "[compress_decompress]" ) {
+	char byte[] = "test/byte";
 	char txt[] = "test/catch.hpp";
 	char image[] = "test/lena.jpg";
 	char exec[] = "test/a.out";
+
 	std::vector<char*> names;
+	names.push_back(byte);
 	names.push_back(txt);
 	names.push_back(image);
 	names.push_back(exec);
 
 	for (auto name : names) {
 		FILE *f = fopen(name, "rb");
+		if (f == NULL) {
+			printf("couldn't open test file [%s]\n", name);
+			exit(-1);
+		}
 
 		printf("Testing file [%s]\n", name);
 		auto bits = BitSequence(f);

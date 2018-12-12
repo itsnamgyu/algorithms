@@ -90,44 +90,67 @@ void decompress(FILE *in, FILE *out) {
 
 void analyze(FILE *in) {
 	char CSV[] = "analysis.csv";
-	FILE *csv = fopen(CSV, "W");
+	FILE *csv = fopen(CSV, "w");
 	if (csv == NULL) {
-		printf("couldn't open analsis output file [%s]\n", CSV);
-		return 0;
+		printf("couldn't open analysis output file [%s]\n", CSV);
+		return;
 	}
 
 	auto input_bits = BitSequence(in);
 
 	fprintf(csv, "Symbol Size,Compressed,Table 1 (Length List),");
-	fprintf(csv, "Table 2 (Symbol List),Total\n");
+	fprintf(csv, "Table 2 (Symbol List),Total,Compression\n");
+
+	int input_size = input_bits.size();
+	printf("Original Data: %d bits\n", input_size);
+
+	printf("%-10s%-10s%-10s%-10s%-10s%-10s\n",
+			"Bits", "Data", "Table 1", "Table 2",
+			"Total", "Compression");
 
 	for (int i = 4; i <= 24; ++i) {
-		auto *tree = PrefixTree::from_content(bits, 24);
+		auto *tree = PrefixTree::from_content(input_bits, i);
 		auto book = CodeBook(tree);
-		auto encoded = book.encode(input_bits);
-		auto table0 = book.to_code_length_list();
-		auto table1 = book.to_counted_length_symbol_list();
-		int size0 = table0.size();
-		int size1 = table1.size();
 
-		free(tree)
+		free(tree);
 
-		printf("%-4d", i);
+		printf("%-10d", i);
 		fprintf(csv, "%d,", i);
 
+		auto encoded = book.encode(input_bits);
 		printf("%-10d", encoded.size());
 		fprintf(csv, "%d,", encoded.size());
 
-		printf("%-10d", size0);
-		fprintf(csv, "%d,", size0);
+		int size0;
+		if (i <= 16) {
+			auto table0 = book.to_code_length_list();
+			size0 = table0.size();
+			printf("%-10d", size0);
+			fprintf(csv, "%d,", size0);
+		} else {
+			printf("%-10s", "N/A");
+			fprintf(csv, "%s,", "N/A");
+		}
 
+		auto table1 = book.to_counted_length_symbol_list();
+		int size1 = table1.size();
 		printf("%-10d", size1);
 		fprintf(csv, "%d,", size1);
 
-		int size = size0 < size1 ? size0 : size1;
+		int total_size;
 
-		printf("%-10d", encoded.size() + size);
-		fprintf(csv, "%d,", encoded.size() + size);
+		if (i <= 16) {
+			total_size = encoded.size() + (size0 < size1 ? size0 : size1);
+		} else {
+			total_size = encoded.size() + size1;
+		}
+
+
+		printf("%-10d", total_size);
+		fprintf(csv, "%d,", total_size);
+
+		printf("%-10.5f", (float) total_size / input_size);
+		fprintf(csv, "%f,", (float) total_size / input_size);
 
 		printf("\n");
 		fprintf(csv, "\n");
