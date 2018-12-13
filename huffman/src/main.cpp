@@ -1,6 +1,8 @@
 #include <cstdio>
 #include <cstdlib>
 #include <climits>
+#include <cassert>
+#include <cstring>
 
 #include "../include/data.hpp"
 #include "../include/code.hpp"

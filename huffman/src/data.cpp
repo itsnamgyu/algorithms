@@ -1,6 +1,7 @@
 #include "../include/data.hpp"
 #include <cassert>
 #include <cctype>
+#include <cstring>
 
 
 ByteString::ByteString() = default;
