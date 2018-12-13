@@ -47,7 +47,5 @@ TEST_CASE( "code.hpp", "[compress_decompress]" ) {
 			free(tree);
 			free(ctree);
 		}
-
-		fclose(f);
 	}
 }
