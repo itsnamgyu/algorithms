@@ -137,6 +137,7 @@ void compress(FILE *in, FILE *out) {
 			}
 			printf("#"); fflush(stdout);
 		}
+		printf("\n");
 		printf("---------------------------------------------------------------\n");
 		printf("\n");
 	}
